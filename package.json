@@ -1,0 +1,11 @@
+{
+  "name": "authentication-service",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/leonfoliveira/Authentication-Service.git",
+  "author": "Leonardo Oliveira <leonfoliveira@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.1.0"
+  }
+}
