@@ -1,0 +1,18 @@
+{
+  "roots": ["<rootDir>/__test__"],
+  "collectCoverageFrom": [
+    "<rootDir>/src/**/*.ts",
+    "!<rootDir>/src/**/index.ts",
+    "!<rootDir>/src/main/**",
+    "!<rootDir>/src/main/utils"
+  ],
+  "coverageDirectory": "coverage",
+  "testEnvironment": "node",
+  "transform": {
+    ".+\\.ts$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@/test/(.*)": "<rootDir>/__test__/$1",
+    "@/(.*)": "<rootDir>/src/$1"
+  }
+}

@@ -6,9 +6,17 @@
   "author": "Leonardo Oliveira <leonfoliveira@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:unit": "yarn test --testMatch '**/*.spec.ts'",
+    "test:integration": "yarn test --testMatch '**/*.test.ts'",
+    "test:watch": "yarn test --watch",
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test --coverage"
   },
   "devDependencies": {
+    "@types/faker": "^5.5.4",
+    "@types/jest": "^26.0.23",
     "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "eslint": "^7.25.0",
@@ -19,15 +27,20 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
+    "faker": "^5.5.3",
     "git-commit-msg-linter": "^3.1.0",
     "husky": "^6.0.0",
+    "jest": "^26.6.3",
+    "jest-mock-extended": "^1.0.14",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
+    "ts-jest": "^26.5.6",
     "typescript": "^4.2.4"
   },
   "lint-staged": {
     "*.ts": [
-      "eslint . --fix"
+      "eslint . --fix",
+      "yarn test:staged"
     ]
   }
 }
