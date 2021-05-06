@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./build",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "@/test/*": ["../__test__/*"],
+      "@/*": ["*"]
+    },
+    "rootDirs": ["src", "__test__"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
+}
