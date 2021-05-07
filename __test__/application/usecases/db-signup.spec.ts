@@ -60,7 +60,7 @@ const mockDTO = (): SignupDTO => ({
   password: faker.internet.password(),
 });
 
-describe('Signup', () => {
+describe('DbSignup', () => {
   it('should call FindUserByEmailRepository with correct params', async () => {
     const { sut, findUserByEmailRepositorySpy } = makeSut();
     const params = mockDTO();

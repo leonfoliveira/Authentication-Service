@@ -17,7 +17,7 @@ const makeSut = (url = faker.internet.url()): SutTypes => {
   return { sut, emailSenderSpy };
 };
 
-describe('LocalSendConfirmationEmail', () => {
+describe('DbLocalSendConfirmationEmail', () => {
   it('should call EmailSender with correct params', async () => {
     const url = faker.internet.url();
     const { sut, emailSenderSpy } = makeSut(url);
