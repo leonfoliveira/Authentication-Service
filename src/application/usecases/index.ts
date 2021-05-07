@@ -4,6 +4,7 @@ export * from './db-refresh-authorization';
 export * from './db-reset-password';
 export * from './db-signin';
 export * from './db-signup';
+export * from './db-update-password';
 export * from './db-update-user';
 export * from './local-send-confirmation-email';
 export * from './local-send-password-reset-email';

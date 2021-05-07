@@ -1,3 +1,3 @@
-export interface RevokeAllAccessTokens {
+export interface RevokeAllRefreshTokens {
   revokeAll: (id: string) => Promise<void>;
 }

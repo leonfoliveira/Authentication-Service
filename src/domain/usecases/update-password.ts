@@ -1,3 +1,3 @@
 export interface UpdatePassword {
-  update: (id: string, password: string) => Promise<void>;
+  update: (passwordResetToken: string, password: string) => Promise<void>;
 }
