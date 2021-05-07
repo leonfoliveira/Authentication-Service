@@ -1,3 +1,3 @@
 export interface ResetPassword {
-  reset: (id: string) => Promise<string>;
+  reset: (id: string) => Promise<void>;
 }

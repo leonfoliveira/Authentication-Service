@@ -6,6 +6,7 @@ export * from './refresh-authorization';
 export * from './reset-password';
 export * from './revoke-all-access-tokens';
 export * from './send-confirmation-email';
+export * from './send-password-reset-email';
 export * from './signin';
 export * from './signup';
 export * from './update-password';

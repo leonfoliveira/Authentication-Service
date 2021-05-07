@@ -9,6 +9,7 @@ export type UpdateUserRepositoryDTO = {
   surname?: string;
   email?: string;
   password?: string;
+  passwordResetToken?: string;
 };
 
 export type UpdateUserRepositoryResult = User;
