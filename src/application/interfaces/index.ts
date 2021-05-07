@@ -14,6 +14,7 @@ export * from './user/find-user-repository';
 export * from './user/revoke-all-refresh-tokens-by-user-repository';
 export * from './user/revoke-refresh-token-repository';
 export * from './user/update-user-repository';
+export * from './user/user-confirm-email-repository';
 export * from './user/user-grant-admin-repository';
 
 export * from './utils/email-sender';
