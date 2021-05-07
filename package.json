@@ -23,6 +23,7 @@
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.6.0",
+    "typeorm": "^0.2.32",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
