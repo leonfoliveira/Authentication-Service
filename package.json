@@ -18,12 +18,18 @@
     "test:ci": "yarn test --coverage",
     "update": "yarn-check -u -s"
   },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "@types/bcrypt": "^3.0.1",
     "@types/faker": "^5.5.4",
     "@types/jest": "^26.0.23",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^15.0.2",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "eslint": "^7.25.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -51,9 +57,5 @@
       "eslint . --fix",
       "yarn test:staged"
     ]
-  },
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "jsonwebtoken": "^8.5.1"
   }
 }
