@@ -57,7 +57,7 @@ describe('DbGetAuthorization', () => {
 
     await sut.get(mockUser());
 
-    expect(createRefreshTokenRepositorySpy.create).toHaveBeenCalledWith(
+    expect(createRefreshTokenRepositorySpy.createRefreshToken).toHaveBeenCalledWith(
       getReturn(tokenGeneratorSpy.generate),
     );
   });

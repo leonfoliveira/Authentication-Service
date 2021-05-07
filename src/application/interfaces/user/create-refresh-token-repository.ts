@@ -1,3 +1,3 @@
 export interface CreateRefreshTokenRepository {
-  create: (refreshToken: string) => Promise<void>;
+  createRefreshToken: (refreshToken: string) => Promise<void>;
 }
