@@ -19,6 +19,7 @@
     "update": "yarn-check -u -s"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.1",
     "@types/faker": "^5.5.4",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.2",
@@ -49,5 +50,8 @@
       "eslint . --fix",
       "yarn test:staged"
     ]
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1"
   }
 }
