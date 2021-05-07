@@ -17,9 +17,7 @@ const makeSut = (): SutTypes => {
   const findUserRepositorySpy = mock<FindUserRepository>({
     find: jest.fn().mockResolvedValue(mockUser()),
   });
-  const updateUserRepositorySpy = mock<UpdateUserRepository>({
-    update: jest.fn().mockResolvedValue(mockUser()),
-  });
+  const updateUserRepositorySpy = mock<UpdateUserRepository>();
   const sut = new DbUpdateUser(findUserRepositorySpy, updateUserRepositorySpy);
 
   return { sut, findUserRepositorySpy, updateUserRepositorySpy };

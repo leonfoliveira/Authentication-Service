@@ -1,4 +1,5 @@
 export * from './db-confirm-email';
+export * from './db-delete-user';
 export * from './db-get-authorization';
 export * from './db-grant-admin';
 export * from './db-refresh-authorization';
