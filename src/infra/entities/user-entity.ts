@@ -4,11 +4,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('users')
+import { RefreshTokensEntity } from './refresh-token-entity';
+
+@Entity('Users')
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -36,6 +39,9 @@ export class UserEntity extends BaseEntity {
 
   @Column()
   passwordResetToken?: string;
+
+  @OneToMany(() => RefreshTokensEntity, (refreshToken) => refreshToken.user)
+  refreshTokens: RefreshTokensEntity[];
 
   @CreateDateColumn({
     select: false,

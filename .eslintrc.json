@@ -53,6 +53,7 @@
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
     "import/export": "off",
+    "import/no-cycle": "off",
     "jest/expect-expect": ["warn", { "assertFunctionNames": ["expect", "test*"] }]
   }
 }
