@@ -9,6 +9,7 @@ export type CreateUserRepositoryDTO = {
   surname: string;
   email: string;
   password: string;
+  emailConfirmToken: string;
 };
 
 export type CreateUserRepositoryResult = User;
