@@ -4,7 +4,6 @@ export * from './get-authorization';
 export * from './grant-admin';
 export * from './refresh-authorization';
 export * from './reset-password';
-export * from './revoke-all-refresh-tokens';
 export * from './send-confirmation-email';
 export * from './send-password-reset-email';
 export * from './signin';
