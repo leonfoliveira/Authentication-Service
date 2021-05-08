@@ -1,3 +1,4 @@
+import { UserNotFoundException } from '@/domain/errors';
 import { RefreshAuthorization } from '@/domain/usecases';
 import { HttpResponseFactory, protectUser } from '@/presentation/helpers';
 import { Controller, HttpResponse } from '@/presentation/interfaces';
@@ -14,7 +15,7 @@ export class RefreshAuthorizationController implements Controller<RefreshAuthori
         user: protectUser(authorization.user),
       });
     } catch (error) {
-      if (error.message === 'USER_NOT_FOUND') {
+      if (error.name === UserNotFoundException.name) {
         return HttpResponseFactory.makeUnauthorized();
       }
       throw error;

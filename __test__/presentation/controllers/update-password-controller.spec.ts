@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { UserNotFoundException } from '@/domain/errors';
 import { UpdatePassword } from '@/domain/usecases';
 import { UpdatePasswordController, UpdatePasswordRequest } from '@/presentation/controllers';
 
@@ -44,9 +45,9 @@ describe('UpdatePasswordController', () => {
     });
   });
 
-  it('should return 404 if UpdatePassword throws USER_NOT_FOUND', async () => {
+  it('should return 404 if UpdatePassword throws UserNotFoundException', async () => {
     const { sut, updatePasswordSpy } = makeSut();
-    updatePasswordSpy.update.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    updatePasswordSpy.update.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 

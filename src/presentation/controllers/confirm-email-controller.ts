@@ -1,3 +1,4 @@
+import { EmailAlreadyConfirmedException, UserNotFoundException } from '@/domain/errors';
 import { ConfirmEmail } from '@/domain/usecases';
 import { HttpResponseFactory } from '@/presentation/helpers';
 import { Controller, HttpResponse } from '@/presentation/interfaces';
@@ -10,10 +11,10 @@ export class ConfirmEmailController implements Controller<ConfirmEmailRequest> {
       await this.confirmEmail.confirm(request.emailConfirmToken);
       return HttpResponseFactory.makeNoContent();
     } catch (error) {
-      if (error.message === 'USER_NOT_FOUND') {
+      if (error.name === UserNotFoundException.name) {
         return HttpResponseFactory.makeNotFound();
       }
-      if (error.message === 'EMAIL_ALREADY_CONFIRMED') {
+      if (error.name === EmailAlreadyConfirmedException.name) {
         return HttpResponseFactory.makeBadRequest('Email is already confirmed.');
       }
       throw error;

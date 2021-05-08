@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { UserNotFoundException } from '@/domain/errors';
 import { GrantAdmin } from '@/domain/usecases';
 import { GrantAdminController, GrantAdminRequest } from '@/presentation/controllers';
 
@@ -38,9 +39,9 @@ describe('GrantAdminController', () => {
     expect(response).toEqual({ statusCode: 204 });
   });
 
-  it('should return 404 if GrantAdmin throws USER_NOT_FOUND', async () => {
+  it('should return 404 if GrantAdmin throws UserNotFoundException', async () => {
     const { sut, grantAdminSpy } = makeSut();
-    grantAdminSpy.grant.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    grantAdminSpy.grant.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 

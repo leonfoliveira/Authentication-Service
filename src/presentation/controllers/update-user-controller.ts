@@ -1,3 +1,4 @@
+import { EmailInUseException, UserNotFoundException } from '@/domain/errors';
 import { UpdateUser } from '@/domain/usecases';
 import { HttpResponseFactory, protectUser } from '@/presentation/helpers';
 import { Controller, HttpResponse } from '@/presentation/interfaces';
@@ -12,10 +13,10 @@ export class UpdateUserController implements Controller<UpdateUserRequest> {
 
       return HttpResponseFactory.makeOk(protectUser(user));
     } catch (error) {
-      if (error.message === 'USER_NOT_FOUND') {
+      if (error.name === UserNotFoundException.name) {
         return HttpResponseFactory.makeNotFound();
       }
-      if (error.message === 'EMAIL_IN_USE') {
+      if (error.name === EmailInUseException.name) {
         return HttpResponseFactory.makeConflict();
       }
       throw error;

@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { EmailInUseException } from '@/domain/errors';
 import { Signup } from '@/domain/usecases';
 import { SignupController, SignupRequest } from '@/presentation/controllers';
 import { mockUser } from '@/test/domain/models';
@@ -55,9 +56,9 @@ describe('SignupController', () => {
     });
   });
 
-  it('should return 409 if Signup throws EMAIL_IN_USE', async () => {
+  it('should return 409 if Signup throws EmailInUseException', async () => {
     const { sut, signupSpy } = makeSut();
-    signupSpy.attempt.mockRejectedValueOnce(new Error('EMAIL_IN_USE'));
+    signupSpy.attempt.mockRejectedValueOnce(new EmailInUseException());
 
     const response = await sut.handle(mockRequest());
 

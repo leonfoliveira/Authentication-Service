@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { UserNotFoundException } from '@/domain/errors';
 import { ResetPassword } from '@/domain/usecases';
 import { ResetPasswordController, ResetPasswordRequest } from '@/presentation/controllers';
 
@@ -38,9 +39,9 @@ describe('ResetPasswordController', () => {
     expect(response).toEqual({ statusCode: 204 });
   });
 
-  it('should return 404 if ResetPassword throws USER_NOT_FOUND', async () => {
+  it('should return 404 if ResetPassword throws UserNotFoundException', async () => {
     const { sut, resetPasswordSpy } = makeSut();
-    resetPasswordSpy.reset.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    resetPasswordSpy.reset.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 

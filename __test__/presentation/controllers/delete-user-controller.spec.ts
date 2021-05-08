@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { UserNotFoundException } from '@/domain/errors';
 import { DeleteUser } from '@/domain/usecases';
 import { DeleteUserController, DeleteUserRequest } from '@/presentation/controllers';
 
@@ -38,9 +39,9 @@ describe('DeleteUserController', () => {
     expect(response).toEqual({ statusCode: 204 });
   });
 
-  it('should return 404 if DeleteUserRequest throws USER_NOT_FOUND', async () => {
+  it('should return 404 if DeleteUserRequest throws UserNotFoundException', async () => {
     const { sut, deleteUserSpy } = makeSut();
-    deleteUserSpy.delete.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    deleteUserSpy.delete.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 

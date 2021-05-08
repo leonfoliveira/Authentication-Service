@@ -1,3 +1,4 @@
+import { UserNotFoundException } from '@/domain/errors';
 import { ResetPassword } from '@/domain/usecases';
 import { HttpResponseFactory } from '@/presentation/helpers';
 import { Controller, HttpResponse } from '@/presentation/interfaces';
@@ -11,7 +12,7 @@ export class ResetPasswordController implements Controller<ResetPasswordRequest>
 
       return HttpResponseFactory.makeNoContent();
     } catch (error) {
-      if (error.message === 'USER_NOT_FOUND') {
+      if (error.name === UserNotFoundException.name) {
         return HttpResponseFactory.makeNotFound();
       }
       throw error;

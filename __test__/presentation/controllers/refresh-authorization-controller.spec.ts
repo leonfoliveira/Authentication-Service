@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { UserNotFoundException } from '@/domain/errors';
 import { RefreshAuthorization } from '@/domain/usecases';
 import {
   RefreshAuthorizationController,
@@ -59,9 +60,9 @@ describe('RefreshAuthorizationController', () => {
     });
   });
 
-  it('should return 401 if RefreshAuthorization throws USER_NOT_FOUND', async () => {
+  it('should return 401 if RefreshAuthorization throws UserNotFoundException', async () => {
     const { sut, refreshAuthorizationSpy } = makeSut();
-    refreshAuthorizationSpy.refresh.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    refreshAuthorizationSpy.refresh.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 

@@ -1,3 +1,4 @@
+import { IncorrectPasswordException, UserNotFoundException } from '@/domain/errors';
 import { Signin } from '@/domain/usecases';
 import { HttpResponseFactory, protectUser } from '@/presentation/helpers';
 import { Controller, HttpResponse } from '@/presentation/interfaces';
@@ -14,7 +15,10 @@ export class SigninController implements Controller<SigninRequest> {
         user: protectUser(authorization.user),
       });
     } catch (error) {
-      if (error.message === 'USER_NOT_FOUND' || error.message === 'INCORRECT_PASSWORD') {
+      if (
+        error.name === UserNotFoundException.name ||
+        error.name === IncorrectPasswordException.name
+      ) {
         return HttpResponseFactory.makeUnauthorized();
       }
       throw error;

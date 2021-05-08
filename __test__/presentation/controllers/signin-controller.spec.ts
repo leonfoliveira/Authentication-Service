@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { IncorrectPasswordException, UserNotFoundException } from '@/domain/errors';
 import { Signin } from '@/domain/usecases';
 import { SigninController, SigninRequest } from '@/presentation/controllers';
 import { mockAuthorization } from '@/test/domain/models';
@@ -57,18 +58,18 @@ describe('SigninController', () => {
     });
   });
 
-  it('should return 401 if Signin throws USER_NOT_FOUND', async () => {
+  it('should return 401 if Signin throws UserNotFoundException', async () => {
     const { sut, signinSpy } = makeSut();
-    signinSpy.attempt.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    signinSpy.attempt.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 
     expect(response).toHaveProperty('statusCode', 401);
   });
 
-  it('should return 401 if Signin throws INCORRECT_PASSWORD', async () => {
+  it('should return 401 if Signin throws IncorrectPasswordException', async () => {
     const { sut, signinSpy } = makeSut();
-    signinSpy.attempt.mockRejectedValueOnce(new Error('INCORRECT_PASSWORD'));
+    signinSpy.attempt.mockRejectedValueOnce(new IncorrectPasswordException());
 
     const response = await sut.handle(mockRequest());
 

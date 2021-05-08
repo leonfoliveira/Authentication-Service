@@ -1,6 +1,7 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
+import { EmailInUseException, UserNotFoundException } from '@/domain/errors';
 import { UpdateUser } from '@/domain/usecases';
 import { UpdateUserController, UpdateUserRequest } from '@/presentation/controllers';
 import { mockUser } from '@/test/domain/models';
@@ -56,18 +57,18 @@ describe('UpdateUserController', () => {
     });
   });
 
-  it('should return 404 if UpdateUser throws USER_NOT_FOUND', async () => {
+  it('should return 404 if UpdateUser throws UserNotFoundException', async () => {
     const { sut, updateUserSpy } = makeSut();
-    updateUserSpy.update.mockRejectedValueOnce(new Error('USER_NOT_FOUND'));
+    updateUserSpy.update.mockRejectedValueOnce(new UserNotFoundException());
 
     const response = await sut.handle(mockRequest());
 
     expect(response).toHaveProperty('statusCode', 404);
   });
 
-  it('should return 409 if UpdateUser throws EMAIL_IN_USE', async () => {
+  it('should return 409 if UpdateUser throws EmailInUseException', async () => {
     const { sut, updateUserSpy } = makeSut();
-    updateUserSpy.update.mockRejectedValueOnce(new Error('EMAIL_IN_USE'));
+    updateUserSpy.update.mockRejectedValueOnce(new EmailInUseException());
 
     const response = await sut.handle(mockRequest());
 
