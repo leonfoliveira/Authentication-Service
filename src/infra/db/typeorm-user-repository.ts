@@ -2,10 +2,11 @@ import {
   CreateUserRepository,
   CreateUserRepositoryDTO,
   CreateUserRepositoryResult,
+  DeleteUserRepository,
 } from '@/application/interfaces';
 import { UserEntity } from '@/infra/entities';
 
-export class TypeormUserRepository implements CreateUserRepository {
+export class TypeormUserRepository implements CreateUserRepository, DeleteUserRepository {
   async create(params: CreateUserRepositoryDTO): Promise<CreateUserRepositoryResult> {
     const user = new UserEntity();
     user.name = params.name;
@@ -14,6 +15,11 @@ export class TypeormUserRepository implements CreateUserRepository {
     user.password = params.password;
     user.emailConfirmToken = params.emailConfirmToken;
     return this.adapt(await user.save());
+  }
+
+  async delete(id: string): Promise<void> {
+    const user = await UserEntity.findOne(id);
+    await user.softRemove();
   }
 
   private adapt(entity: UserEntity): any {
