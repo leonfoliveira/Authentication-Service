@@ -52,4 +52,15 @@ describe('TypeormUserRepository', () => {
       expect(await UserEntity.findOne()).toBeFalsy();
     });
   });
+
+  describe('FindUserByEmailConfirmTokenRepository', () => {
+    it('should return a UserEntity', async () => {
+      const { emailConfirmToken } = await mockUser();
+      const sut = makeSut();
+
+      const result = await sut.findByEmailConfirmToken(emailConfirmToken);
+
+      expect(result).toEqual(await UserEntity.findOne());
+    });
+  });
 });

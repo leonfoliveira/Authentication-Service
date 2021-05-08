@@ -3,10 +3,13 @@ import {
   CreateUserRepositoryDTO,
   CreateUserRepositoryResult,
   DeleteUserRepository,
+  FindUserByEmailConfirmTokenRepository,
+  FindUserByEmailConfirmTokenRepositoryResult,
 } from '@/application/interfaces';
 import { UserEntity } from '@/infra/entities';
 
-export class TypeormUserRepository implements CreateUserRepository, DeleteUserRepository {
+export class TypeormUserRepository
+  implements CreateUserRepository, DeleteUserRepository, FindUserByEmailConfirmTokenRepository {
   async create(params: CreateUserRepositoryDTO): Promise<CreateUserRepositoryResult> {
     const user = new UserEntity();
     user.name = params.name;
@@ -22,17 +25,26 @@ export class TypeormUserRepository implements CreateUserRepository, DeleteUserRe
     await user.softRemove();
   }
 
+  async findByEmailConfirmToken(
+    emailConfirmToken: string,
+  ): Promise<FindUserByEmailConfirmTokenRepositoryResult> {
+    const user = await UserEntity.findOne({ where: { emailConfirmToken } });
+    return this.adapt(await user.save());
+  }
+
   private adapt(entity: UserEntity): any {
-    return {
-      id: entity.id,
-      name: entity.name,
-      surname: entity.surname,
-      email: entity.email,
-      password: entity.password,
-      isAdmin: entity.isAdmin,
-      emailConfirmedAt: entity.emailConfirmedAt,
-      emailConfirmToken: entity.emailConfirmToken,
-      passwordResetToken: entity.passwordResetToken,
-    };
+    return entity
+      ? {
+          id: entity.id,
+          name: entity.name,
+          surname: entity.surname,
+          email: entity.email,
+          password: entity.password,
+          isAdmin: entity.isAdmin,
+          emailConfirmedAt: entity.emailConfirmedAt,
+          emailConfirmToken: entity.emailConfirmToken,
+          passwordResetToken: entity.passwordResetToken,
+        }
+      : null;
   }
 }
