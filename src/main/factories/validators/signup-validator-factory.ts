@@ -9,6 +9,6 @@ export const makeSignupValidator = (): Validator =>
       name: Joi.string().max(32).required().trim(),
       surname: Joi.string().max(64).required().trim(),
       email: Joi.string().email().required().trim(),
-      password: Joi.string().required(),
+      password: Joi.string().min(8).required(),
     }),
   );
