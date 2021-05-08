@@ -1,4 +1,5 @@
 import faker from 'faker';
+import MockDate from 'mockdate';
 
 import { CreateUserRepositoryDTO, UpdateUserRepositoryDTO } from '@/application/interfaces';
 import { TypeormUserRepository } from '@/infra/db';
@@ -8,9 +9,17 @@ import { MemoryDb } from '@/test/helpers';
 const makeSut = (): TypeormUserRepository => new TypeormUserRepository();
 
 describe('TypeormUserRepository', () => {
-  beforeAll(MemoryDb.connect);
+  beforeAll(async () => {
+    await MemoryDb.connect();
+    MockDate.set(new Date());
+  });
+
   beforeEach(MemoryDb.clear);
-  afterAll(MemoryDb.disconnect);
+
+  afterAll(async () => {
+    await MemoryDb.disconnect();
+    MockDate.reset();
+  });
 
   const mockUser = (): Promise<UserEntity> => {
     const user = new UserEntity();
@@ -134,6 +143,17 @@ describe('TypeormUserRepository', () => {
 
       expect(result).toEqual(await UserEntity.findOne());
       expect(result.name).toBe(name);
+    });
+  });
+
+  describe('UserConfirmEmailRepository', () => {
+    it('should update a UserEntity emailConfirmedAt', async () => {
+      const { id } = await mockUser();
+      const sut = makeSut();
+
+      await sut.confirmEmail(id);
+
+      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date());
     });
   });
 });
