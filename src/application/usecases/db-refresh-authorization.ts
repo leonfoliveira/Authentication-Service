@@ -7,7 +7,7 @@ export class DbRefreshAuthorization implements RefreshAuthorization {
   constructor(
     private readonly findUserByRefreshTokenRepository: FindUserByRefreshTokenRepository,
     private readonly revokeRefreshTokenRepository: RevokeRefreshTokenRepository,
-    private readonly getAuthorizationSpy: GetAuthorization,
+    private readonly getAuthorization: GetAuthorization,
   ) {}
 
   async refresh(refreshToken: string): Promise<Authorization> {
@@ -18,7 +18,7 @@ export class DbRefreshAuthorization implements RefreshAuthorization {
 
     await this.revokeRefreshTokenRepository.revoke(refreshToken);
 
-    const authorization = await this.getAuthorizationSpy.get(user);
+    const authorization = await this.getAuthorization.get(user);
 
     return authorization;
   }

@@ -1,4 +1,5 @@
 export default {
+  host: process.env.HOST || 'http://localhost:4000',
   port: process.env.PORT || 4000,
   bcryptRounds: 12,
   jwtSecret: process.env.SECRET,
