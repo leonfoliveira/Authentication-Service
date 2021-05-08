@@ -53,4 +53,16 @@ describe('TypeormRefreshTokenRepository', () => {
       expect(result).toEqual((await RefreshTokensEntity.findOne({ relations: ['user'] })).user);
     });
   });
+
+  describe('RevokeAllRefreshTokensByUserRepository', () => {
+    it('should several RefreshTokenEntities', async () => {
+      const sut = makeSut();
+      const { user } = await mockRefreshToken();
+      await mockRefreshToken();
+
+      await sut.revokeAll(user.id);
+
+      expect((await RefreshTokensEntity.find()).length).toBe(1);
+    });
+  });
 });

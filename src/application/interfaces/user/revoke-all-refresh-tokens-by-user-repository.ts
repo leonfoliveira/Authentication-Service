@@ -1,3 +1,3 @@
 export interface RevokeAllRefreshTokensByUserRepository {
-  revokeAll: (id: string) => Promise<void>;
+  revokeAll: (userId: string) => Promise<void>;
 }
