@@ -1,7 +1,11 @@
 import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
-import { FindUserRepository, UpdateUserRepository } from '@/application/interfaces';
+import {
+  FindUserByEmailRepository,
+  FindUserRepository,
+  UpdateUserRepository,
+} from '@/application/interfaces';
 import { DbUpdateUser } from '@/application/usecases';
 import { UpdateUserDTO } from '@/domain/usecases';
 import { mockUser } from '@/test/domain/models';
@@ -10,17 +14,25 @@ import { getAsyncReturn } from '@/test/helpers';
 type SutTypes = {
   sut: DbUpdateUser;
   findUserRepositorySpy: MockProxy<FindUserRepository>;
+  findUserByEmailRepositorySpy: MockProxy<FindUserByEmailRepository>;
   updateUserRepositorySpy: MockProxy<UpdateUserRepository>;
 };
 
-const makeSut = (): SutTypes => {
+const makeSut = (email = faker.internet.email()): SutTypes => {
   const findUserRepositorySpy = mock<FindUserRepository>({
-    find: jest.fn().mockResolvedValue(mockUser()),
+    find: jest.fn().mockResolvedValue({ ...mockUser(), email }),
+  });
+  const findUserByEmailRepositorySpy = mock<FindUserByEmailRepository>({
+    findByEmail: jest.fn().mockResolvedValue(null),
   });
   const updateUserRepositorySpy = mock<UpdateUserRepository>();
-  const sut = new DbUpdateUser(findUserRepositorySpy, updateUserRepositorySpy);
+  const sut = new DbUpdateUser(
+    findUserRepositorySpy,
+    findUserByEmailRepositorySpy,
+    updateUserRepositorySpy,
+  );
 
-  return { sut, findUserRepositorySpy, updateUserRepositorySpy };
+  return { sut, findUserRepositorySpy, findUserByEmailRepositorySpy, updateUserRepositorySpy };
 };
 
 const mockDTO = (): UpdateUserDTO => ({
@@ -31,8 +43,8 @@ const mockDTO = (): UpdateUserDTO => ({
 
 describe('DbUpdateUser', () => {
   it('should call FindUserRepository with correct params', async () => {
-    const id = faker.datatype.uuid();
     const { sut, findUserRepositorySpy } = makeSut();
+    const id = faker.datatype.uuid();
 
     await sut.update(id, mockDTO());
 
@@ -48,10 +60,46 @@ describe('DbUpdateUser', () => {
     await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
   });
 
+  it('should call FindUserByEmailRepository with correct params', async () => {
+    const { sut, findUserByEmailRepositorySpy } = makeSut();
+    const params = mockDTO();
+
+    await sut.update(faker.datatype.uuid(), params);
+
+    expect(findUserByEmailRepositorySpy.findByEmail).toHaveBeenCalledWith(params.email);
+  });
+
+  it('should not call FindUserByEmailRepository with if email param is provided', async () => {
+    const { sut, findUserByEmailRepositorySpy } = makeSut();
+    const id = faker.datatype.uuid();
+
+    await sut.update(id, {});
+
+    expect(findUserByEmailRepositorySpy.findByEmail).not.toHaveBeenCalled();
+  });
+
+  it('should not call FindUserByEmailRepository if the provided email is equals to FindUserRepository returned email', async () => {
+    const email = faker.internet.email();
+    const { sut, findUserByEmailRepositorySpy } = makeSut(email);
+
+    await sut.update(faker.datatype.uuid(), { email });
+
+    expect(findUserByEmailRepositorySpy.findByEmail).not.toHaveBeenCalled();
+  });
+
+  it('should throw if FindUserByEmailRepository returns some value', async () => {
+    const { sut, findUserByEmailRepositorySpy } = makeSut();
+    findUserByEmailRepositorySpy.findByEmail.mockResolvedValue(mockUser());
+
+    const promise = sut.update(faker.datatype.uuid(), mockDTO());
+
+    await expect(promise).rejects.toThrow(new Error('EMAIL_IN_USE'));
+  });
+
   it('should call UpdateUserRepository with correct params', async () => {
+    const { sut, updateUserRepositorySpy } = makeSut();
     const id = faker.datatype.uuid();
     const params = mockDTO();
-    const { sut, updateUserRepositorySpy } = makeSut();
 
     await sut.update(id, params);
 
