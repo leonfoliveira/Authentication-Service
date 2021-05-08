@@ -15,6 +15,7 @@ import {
   UpdateUserRepositoryDTO,
   UpdateUserRepositoryResult,
   UserConfirmEmailRepository,
+  UserGrantAdminRepository,
 } from '@/application/interfaces';
 import { UserEntity } from '@/infra/entities';
 
@@ -27,7 +28,8 @@ export class TypeormUserRepository
     FindUserByPasswordResetTokenRepository,
     FindUserRepository,
     UpdateUserRepository,
-    UserConfirmEmailRepository {
+    UserConfirmEmailRepository,
+    UserGrantAdminRepository {
   async create(params: CreateUserRepositoryDTO): Promise<CreateUserRepositoryResult> {
     const user = new UserEntity();
     user.name = params.name;
@@ -80,6 +82,12 @@ export class TypeormUserRepository
   async confirmEmail(id: string): Promise<void> {
     const user = await UserEntity.findOne(id);
     user.emailConfirmedAt = new Date();
+    await user.save();
+  }
+
+  async grant(id: string): Promise<void> {
+    const user = await UserEntity.findOne(id);
+    user.isAdmin = true;
     await user.save();
   }
 

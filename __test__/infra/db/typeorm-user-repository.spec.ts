@@ -156,4 +156,15 @@ describe('TypeormUserRepository', () => {
       expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date());
     });
   });
+
+  describe('UserGrantAdminRepository', () => {
+    it('should update a UserEntity emailConfirmedAt', async () => {
+      const { id } = await mockUser();
+      const sut = makeSut();
+
+      await sut.confirmEmail(id);
+
+      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date());
+    });
+  });
 });
