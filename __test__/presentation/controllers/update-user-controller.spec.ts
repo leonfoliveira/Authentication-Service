@@ -64,4 +64,13 @@ describe('UpdateUserController', () => {
 
     expect(response).toHaveProperty('statusCode', 404);
   });
+
+  it('should return 409 if UpdateUser throws EMAIL_IN_USE', async () => {
+    const { sut, updateUserSpy } = makeSut();
+    updateUserSpy.update.mockRejectedValueOnce(new Error('EMAIL_IN_USE'));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toHaveProperty('statusCode', 409);
+  });
 });

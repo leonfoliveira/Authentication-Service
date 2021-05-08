@@ -15,6 +15,9 @@ export class UpdateUserController implements Controller<UpdateUserRequest> {
       if (error.message === 'USER_NOT_FOUND') {
         return HttpResponseFactory.makeNotFound();
       }
+      if (error.message === 'EMAIL_IN_USE') {
+        return HttpResponseFactory.makeConflict();
+      }
       throw error;
     }
   }
