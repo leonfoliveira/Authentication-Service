@@ -20,6 +20,7 @@ describe('TypeormUserRepository', () => {
     user.password = faker.internet.password();
     user.isAdmin = faker.datatype.boolean();
     user.emailConfirmToken = faker.datatype.uuid();
+    user.passwordResetToken = faker.datatype.uuid();
     return user.save();
   };
 
@@ -70,6 +71,17 @@ describe('TypeormUserRepository', () => {
       const sut = makeSut();
 
       const result = await sut.findByEmail(email);
+
+      expect(result).toEqual(await UserEntity.findOne());
+    });
+  });
+
+  describe('FindUserByPasswordResetTokenRepository', () => {
+    it('should return a UserEntity', async () => {
+      const { passwordResetToken } = await mockUser();
+      const sut = makeSut();
+
+      const result = await sut.findByPasswordResetToken(passwordResetToken);
 
       expect(result).toEqual(await UserEntity.findOne());
     });
