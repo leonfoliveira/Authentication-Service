@@ -19,7 +19,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const findUserByRefreshTokenRepositorySpy = mock<FindUserByRefreshTokenRepository>({
-    findByRefreshToken: jest.fn().mockResolvedValue(mockUser()),
+    findUser: jest.fn().mockResolvedValue(mockUser()),
   });
   const revokeRefreshTokenRepositorySpy = mock<RevokeRefreshTokenRepository>();
   const getAuthorizationSpy = mock<GetAuthorization>({
@@ -48,12 +48,12 @@ describe('DbRefreshAuthorization', () => {
 
     await sut.refresh(params);
 
-    expect(findUserByRefreshTokenRepositorySpy.findByRefreshToken).toHaveBeenCalledWith(params);
+    expect(findUserByRefreshTokenRepositorySpy.findUser).toHaveBeenCalledWith(params);
   });
 
   it('should throw if FindUserByRefreshTokenRepository returns null', async () => {
     const { sut, findUserByRefreshTokenRepositorySpy } = makeSut();
-    findUserByRefreshTokenRepositorySpy.findByRefreshToken.mockResolvedValueOnce(null);
+    findUserByRefreshTokenRepositorySpy.findUser.mockResolvedValueOnce(null);
 
     const promise = sut.refresh(mockDTO());
 
@@ -75,7 +75,7 @@ describe('DbRefreshAuthorization', () => {
     await sut.refresh(mockDTO());
 
     expect(getAuthorizationSpy.get).toHaveBeenCalledWith(
-      await getAsyncReturn(findUserByRefreshTokenRepositorySpy.findByRefreshToken),
+      await getAsyncReturn(findUserByRefreshTokenRepositorySpy.findUser),
     );
   });
 

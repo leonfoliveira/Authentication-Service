@@ -17,7 +17,7 @@ export class DbGetAuthorization implements GetAuthorization {
     const refreshToken = this.tokenGenerator.generate();
     const accessToken = this.statelessTokenGenerator.generate(user);
 
-    await this.createRefreshTokenRepository.createRefreshToken(refreshToken);
+    await this.createRefreshTokenRepository.create(refreshToken, user.id);
 
     return {
       accessToken,

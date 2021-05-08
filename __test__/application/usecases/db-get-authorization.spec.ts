@@ -54,11 +54,13 @@ describe('DbGetAuthorization', () => {
 
   it('should call CreateRefreshTokenRepository with correct params', async () => {
     const { sut, tokenGeneratorSpy, createRefreshTokenRepositorySpy } = makeSut();
+    const params = mockUser();
 
-    await sut.get(mockUser());
+    await sut.get(params);
 
-    expect(createRefreshTokenRepositorySpy.createRefreshToken).toHaveBeenCalledWith(
+    expect(createRefreshTokenRepositorySpy.create).toHaveBeenCalledWith(
       getReturn(tokenGeneratorSpy.generate),
+      params.id,
     );
   });
 

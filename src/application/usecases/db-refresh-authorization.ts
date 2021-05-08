@@ -11,7 +11,7 @@ export class DbRefreshAuthorization implements RefreshAuthorization {
   ) {}
 
   async refresh(refreshToken: string): Promise<Authorization> {
-    const user = await this.findUserByRefreshTokenRepository.findByRefreshToken(refreshToken);
+    const user = await this.findUserByRefreshTokenRepository.findUser(refreshToken);
     if (!user) {
       throw new Error('USER_NOT_FOUND');
     }

@@ -1,5 +1,4 @@
 import faker from 'faker';
-import MockDate from 'mockdate';
 
 import { TypeormRefreshTokenRepository } from '@/infra/db';
 import { RefreshTokensEntity, UserEntity } from '@/infra/entities';
@@ -8,12 +7,14 @@ import { MemoryDb } from '@/test/helpers';
 const makeSut = (): TypeormRefreshTokenRepository => new TypeormRefreshTokenRepository();
 
 describe('TypeormRefreshTokenRepository', () => {
-  let user: UserEntity;
+  beforeAll(MemoryDb.connect);
 
-  beforeAll(async () => {
-    await MemoryDb.connect();
-    MockDate.set(new Date());
-    user = new UserEntity();
+  beforeEach(MemoryDb.clear);
+
+  afterAll(MemoryDb.disconnect);
+
+  const mockUser = async (): Promise<UserEntity> => {
+    const user = new UserEntity();
     user.name = faker.name.firstName();
     user.surname = faker.name.lastName();
     user.email = faker.internet.email();
@@ -21,24 +22,35 @@ describe('TypeormRefreshTokenRepository', () => {
     user.isAdmin = faker.datatype.boolean();
     user.emailConfirmToken = faker.datatype.uuid();
     user.passwordResetToken = faker.datatype.uuid();
-    await user.save();
-  });
+    return user.save();
+  };
 
-  beforeEach(MemoryDb.clear);
-
-  afterAll(async () => {
-    await MemoryDb.disconnect();
-    MockDate.reset();
-  });
+  const mockRefreshToken = async (): Promise<RefreshTokensEntity> => {
+    const refreshToken = new RefreshTokensEntity();
+    refreshToken.token = faker.datatype.uuid();
+    refreshToken.user = await mockUser();
+    return refreshToken.save();
+  };
 
   describe('CreateRefreshTokenRepository', () => {
     it('should create a UserEntity', async () => {
       const sut = makeSut();
       const token = faker.datatype.uuid();
+      const user = await mockUser();
 
       const result = await sut.create(token, user.id);
+      expect(result).toEqual(await RefreshTokensEntity.findOne({ relations: ['user'] }));
+    });
+  });
 
-      expect(result).toEqual(await RefreshTokensEntity.findOne());
+  describe('FindUserByRefreshTokenRepository', () => {
+    it('should find a UserEntity', async () => {
+      const sut = makeSut();
+      const { token } = await mockRefreshToken();
+
+      const result = await sut.findUser(token);
+
+      expect(result).toEqual((await RefreshTokensEntity.findOne({ relations: ['user'] })).user);
     });
   });
 });

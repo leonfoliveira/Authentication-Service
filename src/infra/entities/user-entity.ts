@@ -40,7 +40,9 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   passwordResetToken: string;
 
-  @OneToMany(() => RefreshTokensEntity, (refreshToken) => refreshToken.user)
+  @OneToMany(() => RefreshTokensEntity, (refreshToken) => refreshToken.user, {
+    cascade: true,
+  })
   refreshTokens: RefreshTokensEntity[];
 
   @CreateDateColumn({

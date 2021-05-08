@@ -17,8 +17,8 @@ export const MemoryDb = {
   },
 
   async clear(): Promise<void> {
-    await UserEntity.delete({});
     await RefreshTokensEntity.delete({});
+    await UserEntity.delete({});
   },
 
   async disconnect(): Promise<void> {
