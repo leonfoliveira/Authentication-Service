@@ -1,4 +1,5 @@
 export * from './confirm-email-controller';
+export * from './delete-user-controller';
 export * from './grant-admin-controller';
 export * from './refresh-authorization-controller';
 export * from './reset-password-controller';
