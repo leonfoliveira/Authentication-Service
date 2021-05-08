@@ -31,7 +31,7 @@ export class UserEntity extends BaseEntity {
   @Column({ default: false })
   isAdmin: boolean;
 
-  @Column({ nullable: true, type: 'datetime' })
+  @Column({ nullable: true })
   emailConfirmedAt: Date;
 
   @Column({ nullable: true, unique: true })
@@ -47,19 +47,16 @@ export class UserEntity extends BaseEntity {
 
   @CreateDateColumn({
     select: false,
-    type: 'datetime',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     select: false,
-    type: 'datetime',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     select: false,
-    type: 'datetime',
   })
   deletedAt?: Date;
 }

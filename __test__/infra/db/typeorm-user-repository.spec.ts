@@ -153,18 +153,18 @@ describe('TypeormUserRepository', () => {
 
       await sut.confirmEmail(id);
 
-      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date());
+      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date().toString());
     });
   });
 
   describe('UserGrantAdminRepository', () => {
-    it('should update a UserEntity emailConfirmedAt', async () => {
+    it('should update a UserEntity isAdmin', async () => {
       const { id } = await mockUser();
       const sut = makeSut();
 
       await sut.confirmEmail(id);
 
-      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date());
+      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date().toString());
     });
   });
 });

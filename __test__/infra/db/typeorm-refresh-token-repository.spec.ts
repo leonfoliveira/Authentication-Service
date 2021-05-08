@@ -33,13 +33,14 @@ describe('TypeormRefreshTokenRepository', () => {
   };
 
   describe('CreateRefreshTokenRepository', () => {
-    it('should create a UserEntity', async () => {
+    it('should create a RefreshTokenEntity', async () => {
       const sut = makeSut();
       const token = faker.datatype.uuid();
       const user = await mockUser();
 
-      const result = await sut.create(token, user.id);
-      expect(result).toEqual(await RefreshTokensEntity.findOne({ relations: ['user'] }));
+      await sut.create(token, user.id);
+
+      expect(await RefreshTokensEntity.findOne()).toBeTruthy();
     });
   });
 

@@ -17,7 +17,7 @@ export class TypeormRefreshTokenRepository
     const refreshTokens = new RefreshTokensEntity();
     refreshTokens.token = token;
     refreshTokens.user = await UserEntity.findOne(userId);
-    return this.adapt(await refreshTokens.save());
+    await refreshTokens.save();
   }
 
   async findUser(token: string): Promise<FindUserByRefreshTokenRepositoryResult> {
