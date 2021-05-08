@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import { CreateUserRepositoryDTO } from '@/application/interfaces';
+import { CreateUserRepositoryDTO, UpdateUserRepositoryDTO } from '@/application/interfaces';
 import { TypeormUserRepository } from '@/infra/db';
 import { UserEntity } from '@/infra/entities';
 import { MemoryDb } from '@/test/helpers';
@@ -103,6 +103,37 @@ describe('TypeormUserRepository', () => {
       const result = await sut.find(faker.datatype.uuid());
 
       expect(result).toBeNull();
+    });
+  });
+
+  describe('UpdateUserRepository', () => {
+    const mockDTO = (): UpdateUserRepositoryDTO => ({
+      name: faker.name.firstName(),
+      surname: faker.name.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      passwordResetToken: faker.datatype.uuid(),
+    });
+
+    it('should update a UserEntity', async () => {
+      const { id } = await mockUser();
+      const sut = makeSut();
+      const params = mockDTO();
+
+      const result = await sut.update(id, params);
+
+      expect(result).toEqual(await UserEntity.findOne());
+      expect(result.name).toBe(params.name);
+    });
+
+    it('should update a UserEntity without some param', async () => {
+      const { id, name } = await mockUser();
+      const sut = makeSut();
+
+      const result = await sut.update(id, {});
+
+      expect(result).toEqual(await UserEntity.findOne());
+      expect(result.name).toBe(name);
     });
   });
 });

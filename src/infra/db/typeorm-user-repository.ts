@@ -11,6 +11,9 @@ import {
   FindUserByPasswordResetTokenRepositoryResult,
   FindUserRepository,
   FindUserRepositoryResult,
+  UpdateUserRepository,
+  UpdateUserRepositoryDTO,
+  UpdateUserRepositoryResult,
 } from '@/application/interfaces';
 import { UserEntity } from '@/infra/entities';
 
@@ -21,7 +24,8 @@ export class TypeormUserRepository
     FindUserByEmailConfirmTokenRepository,
     FindUserByEmailRepository,
     FindUserByPasswordResetTokenRepository,
-    FindUserRepository {
+    FindUserRepository,
+    UpdateUserRepository {
   async create(params: CreateUserRepositoryDTO): Promise<CreateUserRepositoryResult> {
     const user = new UserEntity();
     user.name = params.name;
@@ -59,6 +63,16 @@ export class TypeormUserRepository
   async find(id: string): Promise<FindUserRepositoryResult> {
     const user = await UserEntity.findOne(id);
     return this.adapt(user);
+  }
+
+  async update(id: string, params: UpdateUserRepositoryDTO): Promise<UpdateUserRepositoryResult> {
+    const user = await UserEntity.findOne(id);
+    if (params.name) user.name = params.name;
+    if (params.surname) user.surname = params.surname;
+    if (params.email) user.email = params.email;
+    if (params.password) user.password = params.password;
+    if (params.passwordResetToken) user.passwordResetToken = params.passwordResetToken;
+    return this.adapt(await user.save());
   }
 
   private adapt(entity: UserEntity): any {
