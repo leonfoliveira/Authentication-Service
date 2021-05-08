@@ -6,6 +6,7 @@ import {
   RevokeRefreshTokenRepository,
 } from '@/application/interfaces';
 import { DbRefreshAuthorization } from '@/application/usecases';
+import { UserNotFoundException } from '@/domain/errors';
 import { GetAuthorization } from '@/domain/usecases';
 import { mockAuthorization, mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
@@ -57,7 +58,7 @@ describe('DbRefreshAuthorization', () => {
 
     const promise = sut.refresh(mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call RevokeRefreshTokenRepository with correct params', async () => {

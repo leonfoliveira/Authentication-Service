@@ -1,3 +1,4 @@
+import { UserNotFoundException } from '@/domain/errors';
 import { Authorization } from '@/domain/models';
 import { GetAuthorization, RefreshAuthorization } from '@/domain/usecases';
 
@@ -13,7 +14,7 @@ export class DbRefreshAuthorization implements RefreshAuthorization {
   async refresh(refreshToken: string): Promise<Authorization> {
     const user = await this.findUserByRefreshTokenRepository.findUser(refreshToken);
     if (!user) {
-      throw new Error('USER_NOT_FOUND');
+      throw new UserNotFoundException();
     }
 
     await this.revokeRefreshTokenRepository.revoke(refreshToken);

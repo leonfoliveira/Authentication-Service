@@ -8,6 +8,7 @@ import {
   UpdateUserRepository,
 } from '@/application/interfaces';
 import { DbUpdatePassword } from '@/application/usecases';
+import { UserNotFoundException } from '@/domain/errors';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
 
@@ -62,7 +63,7 @@ describe('DbUpdatePassword', () => {
 
     const promise = sut.update(faker.datatype.uuid(), faker.internet.password());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call HashGenerator with correct params', async () => {

@@ -1,4 +1,5 @@
 import { DeleteUserRepository, FindUserRepository } from '@/application/interfaces';
+import { UserNotFoundException } from '@/domain/errors';
 import { DeleteUser } from '@/domain/usecases';
 
 export class DbDeleteUser implements DeleteUser {
@@ -10,7 +11,7 @@ export class DbDeleteUser implements DeleteUser {
   async delete(id: string): Promise<void> {
     const isUserExistent = await this.findUserRepository.find(id);
     if (!isUserExistent) {
-      throw new Error('USER_NOT_FOUND');
+      throw new UserNotFoundException();
     }
 
     await this.deleteUserRepository.delete(id);

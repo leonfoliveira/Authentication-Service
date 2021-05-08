@@ -3,6 +3,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 
 import { FindUserRepository, TokenGenerator, UpdateUserRepository } from '@/application/interfaces';
 import { DbResetPassword } from '@/application/usecases';
+import { UserNotFoundException } from '@/domain/errors';
 import { SendPasswordResetEmail } from '@/domain/usecases';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn, getReturn } from '@/test/helpers';
@@ -58,7 +59,7 @@ describe('DbResetPassword', () => {
 
     const promise = sut.reset(mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call TokenGenerator with correct params', async () => {

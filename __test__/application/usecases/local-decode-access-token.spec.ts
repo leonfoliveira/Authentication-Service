@@ -3,6 +3,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 
 import { StatelessTokenDecoder } from '@/application/interfaces';
 import { LocalDecodeAccessToken } from '@/application/usecases';
+import { InvalidAccessTokenException } from '@/domain/errors';
 import { mockUser } from '@/test/domain/models';
 import { getReturn } from '@/test/helpers';
 
@@ -34,7 +35,7 @@ describe('LocalDecodeAccessToken', () => {
     const { sut, statelessTokenDecoderSpy } = makeSut();
     statelessTokenDecoderSpy.decode.mockReturnValue(null);
 
-    expect(() => sut.decode(faker.datatype.uuid())).toThrow(new Error('INVALID_ACCESS_TOKEN'));
+    expect(() => sut.decode(faker.datatype.uuid())).toThrow(new InvalidAccessTokenException());
   });
 
   it('should return the same as StatelessTokenDecoder', () => {

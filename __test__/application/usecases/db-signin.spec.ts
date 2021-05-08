@@ -3,6 +3,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 
 import { FindUserByEmailRepository, HashComparer } from '@/application/interfaces';
 import { DbSignin } from '@/application/usecases';
+import { IncorrectPasswordException, UserNotFoundException } from '@/domain/errors';
 import { GetAuthorization, SigninDTO } from '@/domain/usecases';
 import { mockAuthorization, mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
@@ -50,7 +51,7 @@ describe('DbSignin', () => {
 
     const promise = sut.attempt(mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call HashComparer with correct params', async () => {
@@ -71,7 +72,7 @@ describe('DbSignin', () => {
 
     const promise = sut.attempt(mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('INCORRECT_PASSWORD'));
+    await expect(promise).rejects.toThrow(new IncorrectPasswordException());
   });
 
   it('should call GetAuthorization with correct params', async () => {

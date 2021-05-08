@@ -6,6 +6,7 @@ import {
   UserConfirmEmailRepository,
 } from '@/application/interfaces';
 import { DbConfirmEmail } from '@/application/usecases';
+import { EmailAlreadyConfirmedException, UserNotFoundException } from '@/domain/errors';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
 
@@ -49,7 +50,7 @@ describe('DbConfirmEmail', () => {
 
     const promise = sut.confirm(faker.datatype.uuid());
 
-    await expect(promise).rejects.toThrow(new Error('EMAIL_ALREADY_CONFIRMED'));
+    await expect(promise).rejects.toThrow(new EmailAlreadyConfirmedException());
   });
 
   it('should throw if FindUserByEmailConfirmTokenRepository returns null', async () => {
@@ -58,7 +59,7 @@ describe('DbConfirmEmail', () => {
 
     const promise = sut.confirm(faker.datatype.uuid());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call UserConfirmEmailRepository with correct params', async () => {

@@ -4,6 +4,7 @@ import {
   RevokeAllRefreshTokensByUserRepository,
   UpdateUserRepository,
 } from '@/application/interfaces';
+import { UserNotFoundException } from '@/domain/errors';
 import { UpdatePassword } from '@/domain/usecases';
 
 export class DbUpdatePassword implements UpdatePassword {
@@ -19,7 +20,7 @@ export class DbUpdatePassword implements UpdatePassword {
       passwordResetToken,
     );
     if (!user) {
-      throw new Error('USER_NOT_FOUND');
+      throw new UserNotFoundException();
     }
 
     const hashedPassword = await this.hashGenerator.generate(password);

@@ -7,6 +7,7 @@ import {
   UpdateUserRepository,
 } from '@/application/interfaces';
 import { DbUpdateUser } from '@/application/usecases';
+import { EmailInUseException, UserNotFoundException } from '@/domain/errors';
 import { UpdateUserDTO } from '@/domain/usecases';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
@@ -57,7 +58,7 @@ describe('DbUpdateUser', () => {
 
     const promise = sut.update(faker.datatype.uuid(), mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call FindUserByEmailRepository with correct params', async () => {
@@ -93,7 +94,7 @@ describe('DbUpdateUser', () => {
 
     const promise = sut.update(faker.datatype.uuid(), mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('EMAIL_IN_USE'));
+    await expect(promise).rejects.toThrow(new EmailInUseException());
   });
 
   it('should call UpdateUserRepository with correct params', async () => {

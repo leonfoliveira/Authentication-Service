@@ -8,6 +8,7 @@ import {
   TokenGenerator,
 } from '@/application/interfaces';
 import { DbSignup } from '@/application/usecases';
+import { EmailInUseException } from '@/domain/errors';
 import { SendConfirmationEmail, SignupDTO } from '@/domain/usecases';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn, getReturn } from '@/test/helpers';
@@ -76,7 +77,7 @@ describe('DbSignup', () => {
 
     const promise = sut.attempt(mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('EMAIL_IN_USE'));
+    await expect(promise).rejects.toThrow(new EmailInUseException());
   });
 
   it('should call HashGenerator with correct params', async () => {

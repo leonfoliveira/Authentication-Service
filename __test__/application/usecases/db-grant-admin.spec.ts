@@ -3,6 +3,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 
 import { FindUserRepository, UserGrantAdminRepository } from '@/application/interfaces';
 import { DbGrantAdmin } from '@/application/usecases';
+import { UserNotFoundException } from '@/domain/errors';
 import { mockUser } from '@/test/domain/models';
 
 type SutTypes = {
@@ -39,7 +40,7 @@ describe('DbGrantAdmin', () => {
 
     const promise = sut.grant(mockDTO());
 
-    await expect(promise).rejects.toThrow(new Error('USER_NOT_FOUND'));
+    await expect(promise).rejects.toThrow(new UserNotFoundException());
   });
 
   it('should call UserGrantAdminRepository with correct params', async () => {

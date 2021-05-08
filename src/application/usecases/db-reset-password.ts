@@ -1,4 +1,5 @@
 import { FindUserRepository, TokenGenerator, UpdateUserRepository } from '@/application/interfaces';
+import { UserNotFoundException } from '@/domain/errors';
 import { ResetPassword, SendPasswordResetEmail } from '@/domain/usecases';
 
 export class DbResetPassword implements ResetPassword {
@@ -12,7 +13,7 @@ export class DbResetPassword implements ResetPassword {
   async reset(id: string): Promise<void> {
     const user = await this.findUserRepository.find(id);
     if (!user) {
-      throw new Error('USER_NOT_FOUND');
+      throw new UserNotFoundException();
     }
 
     const passwordResetToken = this.tokenGenerator.generate();

@@ -3,6 +3,7 @@ import {
   FindUserRepository,
   UpdateUserRepository,
 } from '@/application/interfaces';
+import { EmailInUseException, UserNotFoundException } from '@/domain/errors';
 import { User } from '@/domain/models';
 import { UpdateUser, UpdateUserDTO } from '@/domain/usecases';
 
@@ -16,13 +17,13 @@ export class DbUpdateUser implements UpdateUser {
   async update(id: string, params: UpdateUserDTO): Promise<User> {
     const existentUser = await this.findUserRepository.find(id);
     if (!existentUser) {
-      throw new Error('USER_NOT_FOUND');
+      throw new UserNotFoundException();
     }
 
     if (params.email && params.email !== existentUser.email) {
       const isEmailInUse = await this.findUserByEmailRepository.findByEmail(params.email);
       if (isEmailInUse) {
-        throw new Error('EMAIL_IN_USE');
+        throw new EmailInUseException();
       }
     }
 

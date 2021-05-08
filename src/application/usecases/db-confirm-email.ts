@@ -2,6 +2,7 @@ import {
   FindUserByEmailConfirmTokenRepository,
   UserConfirmEmailRepository,
 } from '@/application/interfaces';
+import { EmailAlreadyConfirmedException, UserNotFoundException } from '@/domain/errors';
 import { ConfirmEmail } from '@/domain/usecases';
 
 export class DbConfirmEmail implements ConfirmEmail {
@@ -15,10 +16,10 @@ export class DbConfirmEmail implements ConfirmEmail {
       emailConfirmToken,
     );
     if (!user) {
-      throw new Error('USER_NOT_FOUND');
+      throw new UserNotFoundException();
     }
     if (user.emailConfirmedAt !== null) {
-      throw new Error('EMAIL_ALREADY_CONFIRMED');
+      throw new EmailAlreadyConfirmedException();
     }
 
     await this.userConfirmEmailRepository.confirmEmail(user.id);

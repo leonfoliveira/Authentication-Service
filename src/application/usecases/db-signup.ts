@@ -4,6 +4,7 @@ import {
   HashGenerator,
   TokenGenerator,
 } from '@/application/interfaces';
+import { EmailInUseException } from '@/domain/errors';
 import { User } from '@/domain/models';
 import { SendConfirmationEmail, Signup, SignupDTO } from '@/domain/usecases';
 
@@ -18,7 +19,7 @@ export class DbSignup implements Signup {
 
   async attempt(params: SignupDTO): Promise<User> {
     const isEmailInUse = await this.findUserByEmailRepositorySpy.findByEmail(params.email);
-    if (isEmailInUse) throw new Error('EMAIL_IN_USE');
+    if (isEmailInUse) throw new EmailInUseException();
 
     const password = await this.hashGenerator.generate(params.password);
     const emailConfirmToken = this.tokenGenerator.generate();
