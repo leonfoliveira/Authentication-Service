@@ -63,4 +63,15 @@ describe('TypeormUserRepository', () => {
       expect(result).toEqual(await UserEntity.findOne());
     });
   });
+
+  describe('FindUserByEmailRepository', () => {
+    it('should return a UserEntity', async () => {
+      const { email } = await mockUser();
+      const sut = makeSut();
+
+      const result = await sut.findByEmail(email);
+
+      expect(result).toEqual(await UserEntity.findOne());
+    });
+  });
 });

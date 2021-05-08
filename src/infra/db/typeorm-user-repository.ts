@@ -5,11 +5,17 @@ import {
   DeleteUserRepository,
   FindUserByEmailConfirmTokenRepository,
   FindUserByEmailConfirmTokenRepositoryResult,
+  FindUserByEmailRepository,
+  FindUserByEmailRepositoryResult,
 } from '@/application/interfaces';
 import { UserEntity } from '@/infra/entities';
 
 export class TypeormUserRepository
-  implements CreateUserRepository, DeleteUserRepository, FindUserByEmailConfirmTokenRepository {
+  implements
+    CreateUserRepository,
+    DeleteUserRepository,
+    FindUserByEmailConfirmTokenRepository,
+    FindUserByEmailRepository {
   async create(params: CreateUserRepositoryDTO): Promise<CreateUserRepositoryResult> {
     const user = new UserEntity();
     user.name = params.name;
@@ -29,7 +35,12 @@ export class TypeormUserRepository
     emailConfirmToken: string,
   ): Promise<FindUserByEmailConfirmTokenRepositoryResult> {
     const user = await UserEntity.findOne({ where: { emailConfirmToken } });
-    return this.adapt(await user.save());
+    return this.adapt(user);
+  }
+
+  async findByEmail(email: string): Promise<FindUserByEmailRepositoryResult> {
+    const user = await UserEntity.findOne({ where: { email } });
+    return this.adapt(user);
   }
 
   private adapt(entity: UserEntity): any {
