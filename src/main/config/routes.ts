@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
 
-import { adaptMiddleware, adaptRoute } from '@/main/adapters';
+import { adaptMiddleware, adaptRoute, adaptView } from '@/main/adapters';
 import {
   makeConfirmEmailController,
   makeDeleteUserController,
@@ -17,6 +17,9 @@ import { makeAuthMiddleware } from '@/main/factories/middlewares';
 export default (app: Express): void => {
   const router = express.Router();
   app.use('/api', router);
+
+  app.set('view engine', 'ejs');
+  app.get('/confirm/:emailConfirmToken', adaptView('confirm-email.ejs'));
 
   router.post('/signup', adaptRoute(makeSignupController()));
   router.get('/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
