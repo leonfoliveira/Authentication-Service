@@ -34,10 +34,10 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true, type: 'datetime' })
   emailConfirmedAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   emailConfirmToken: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   passwordResetToken: string;
 
   @OneToMany(() => RefreshTokensEntity, (refreshToken) => refreshToken.user, {

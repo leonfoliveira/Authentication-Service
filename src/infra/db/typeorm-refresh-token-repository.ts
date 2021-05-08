@@ -3,6 +3,7 @@ import {
   FindUserByRefreshTokenRepository,
   FindUserByRefreshTokenRepositoryResult,
   RevokeAllRefreshTokensByUserRepository,
+  RevokeRefreshTokenRepository,
 } from '@/application/interfaces';
 import { RefreshTokensEntity, UserEntity } from '@/infra/entities';
 
@@ -10,7 +11,8 @@ export class TypeormRefreshTokenRepository
   implements
     CreateRefreshTokenRepository,
     FindUserByRefreshTokenRepository,
-    RevokeAllRefreshTokensByUserRepository {
+    RevokeAllRefreshTokensByUserRepository,
+    RevokeRefreshTokenRepository {
   async create(token: string, userId: string): Promise<void> {
     const refreshTokens = new RefreshTokensEntity();
     refreshTokens.token = token;
@@ -25,6 +27,10 @@ export class TypeormRefreshTokenRepository
 
   async revokeAll(userId: string): Promise<void> {
     await RefreshTokensEntity.delete({ user: { id: userId } });
+  }
+
+  async revoke(token: string): Promise<void> {
+    await RefreshTokensEntity.delete({ token });
   }
 
   private adapt(entity: RefreshTokensEntity): any {

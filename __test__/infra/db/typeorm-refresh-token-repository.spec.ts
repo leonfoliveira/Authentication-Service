@@ -55,7 +55,7 @@ describe('TypeormRefreshTokenRepository', () => {
   });
 
   describe('RevokeAllRefreshTokensByUserRepository', () => {
-    it('should several RefreshTokenEntities', async () => {
+    it('should delete several RefreshTokenEntities', async () => {
       const sut = makeSut();
       const { user } = await mockRefreshToken();
       await mockRefreshToken();
@@ -63,6 +63,17 @@ describe('TypeormRefreshTokenRepository', () => {
       await sut.revokeAll(user.id);
 
       expect((await RefreshTokensEntity.find()).length).toBe(1);
+    });
+  });
+
+  describe('RevokeRefreshTokenRepository', () => {
+    it('should delete a RefreshTokenEntity', async () => {
+      const sut = makeSut();
+      const { token } = await mockRefreshToken();
+
+      await sut.revoke(token);
+
+      expect(await RefreshTokensEntity.findOne()).toBeFalsy();
     });
   });
 });

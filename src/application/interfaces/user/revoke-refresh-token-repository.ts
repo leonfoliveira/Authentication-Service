@@ -1,3 +1,3 @@
 export interface RevokeRefreshTokenRepository {
-  revoke: (refreshToken: string) => Promise<void>;
+  revoke: (token: string) => Promise<void>;
 }

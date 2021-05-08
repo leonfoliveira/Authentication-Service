@@ -18,7 +18,7 @@ export class RefreshTokensEntity extends BaseEntity {
   @ManyToOne(() => UserEntity, (user) => user.refreshTokens)
   user: UserEntity;
 
-  @Column()
+  @Column({ unique: true })
   token: string;
 
   @CreateDateColumn({
