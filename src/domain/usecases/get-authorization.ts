@@ -1,5 +1,5 @@
-import { Authorization, ProtectedUser } from '@/domain/models';
+import { Authorization, User } from '@/domain/models';
 
 export interface GetAuthorization {
-  get: (user: ProtectedUser) => Promise<Authorization>;
+  get: (user: User) => Promise<Authorization>;
 }

@@ -1,5 +1,5 @@
 export interface Controller<T = any> {
-  handle: (httpRequest: T) => Promise<HttpResponse<T>>;
+  handle: (request: T) => Promise<HttpResponse<T>>;
 }
 
 export type HttpResponse<T = any> = {
