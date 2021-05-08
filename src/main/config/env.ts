@@ -1,8 +1,11 @@
 export default {
+  nodeEnv: process.env.NODE_ENV || 'development',
+  domain: process.env.DOMAIN || 'localhost',
   host: process.env.HOST || 'http://localhost:4000',
   port: process.env.PORT || 4000,
   bcryptRounds: 12,
   jwtSecret: process.env.SECRET,
+  jwtRefreshTokenExpiration: +process.env.JWT_REFRESH_TOKEN_EXPIRATION || 60 * 60 * 24 * 7,
   nodemailerOptions: {
     host: process.env.MAIL_HOST || 'smtp.mailtrap.io',
     port: process.env.MAIL_PORT || 2525,
