@@ -31,14 +31,14 @@ export class UserEntity extends BaseEntity {
   @Column({ default: false })
   isAdmin: boolean;
 
-  @Column()
-  emailConfirmedAt?: Date;
+  @Column({ nullable: true })
+  emailConfirmedAt: Date;
 
-  @Column()
-  emailConfirmToken?: string;
+  @Column({ nullable: true })
+  emailConfirmToken: string;
 
-  @Column()
-  passwordResetToken?: string;
+  @Column({ nullable: true })
+  passwordResetToken: string;
 
   @OneToMany(() => RefreshTokensEntity, (refreshToken) => refreshToken.user)
   refreshTokens: RefreshTokensEntity[];

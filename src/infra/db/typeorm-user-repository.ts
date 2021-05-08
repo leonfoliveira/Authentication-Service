@@ -1,0 +1,32 @@
+import {
+  CreateUserRepository,
+  CreateUserRepositoryDTO,
+  CreateUserRepositoryResult,
+} from '@/application/interfaces';
+import { UserEntity } from '@/infra/entities';
+
+export class TypeormUserRepository implements CreateUserRepository {
+  async create(params: CreateUserRepositoryDTO): Promise<CreateUserRepositoryResult> {
+    const user = new UserEntity();
+    user.name = params.name;
+    user.surname = params.surname;
+    user.email = params.email;
+    user.password = params.password;
+    user.emailConfirmToken = params.emailConfirmToken;
+    return this.adapt(await user.save());
+  }
+
+  private adapt(entity: UserEntity): any {
+    return {
+      id: entity.id,
+      name: entity.name,
+      surname: entity.surname,
+      email: entity.email,
+      password: entity.password,
+      isAdmin: entity.isAdmin,
+      emailConfirmedAt: entity.emailConfirmedAt,
+      emailConfirmToken: entity.emailConfirmToken,
+      passwordResetToken: entity.passwordResetToken,
+    };
+  }
+}
