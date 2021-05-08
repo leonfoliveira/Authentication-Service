@@ -4,5 +4,5 @@ export interface Controller<T = any> {
 
 export type HttpResponse<T = any> = {
   statusCode: number;
-  body: T;
+  body?: T;
 };
