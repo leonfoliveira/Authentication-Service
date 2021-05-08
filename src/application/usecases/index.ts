@@ -8,5 +8,6 @@ export * from './db-signin';
 export * from './db-signup';
 export * from './db-update-password';
 export * from './db-update-user';
+export * from './local-decode-access-token';
 export * from './local-send-confirmation-email';
 export * from './local-send-password-reset-email';

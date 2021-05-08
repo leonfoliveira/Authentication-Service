@@ -1,9 +1,9 @@
 export * from './criptography/hash-comparer';
 export * from './criptography/hash-generator';
+export * from './criptography/stateless-token-decoder';
 export * from './criptography/stateless-token-generator';
 export * from './criptography/token-generator';
 
-export * from './user/create-confirm-email-repository';
 export * from './user/create-refresh-token-repository';
 export * from './user/create-user-repository';
 export * from './user/delete-user-repository';
