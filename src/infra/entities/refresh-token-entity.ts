@@ -21,11 +21,14 @@ export class RefreshTokensEntity extends BaseEntity {
   @Column()
   token: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'datetime',
+  })
   issuedAt: Date;
 
   @DeleteDateColumn({
     select: false,
+    type: 'datetime',
   })
   revokedAt?: Date;
 }
