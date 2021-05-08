@@ -86,4 +86,23 @@ describe('TypeormUserRepository', () => {
       expect(result).toEqual(await UserEntity.findOne());
     });
   });
+
+  describe('FindUserRepository', () => {
+    it('should return a UserEntity', async () => {
+      const { id } = await mockUser();
+      const sut = makeSut();
+
+      const result = await sut.find(id);
+
+      expect(result).toEqual(await UserEntity.findOne());
+    });
+
+    it('should return a null if no UserEntity is found', async () => {
+      const sut = makeSut();
+
+      const result = await sut.find(faker.datatype.uuid());
+
+      expect(result).toBeNull();
+    });
+  });
 });
