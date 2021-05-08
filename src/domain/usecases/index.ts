@@ -1,4 +1,5 @@
 export * from './confirm-email';
+export * from './decode-access-token';
 export * from './delete-user';
 export * from './get-authorization';
 export * from './grant-admin';
