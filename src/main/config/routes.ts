@@ -32,7 +32,7 @@ export default (app: Express): void => {
     adaptRoute(makeRefreshAuthorizationController()),
   );
   router.put(
-    '/user',
+    '/user/:id',
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeUpdateUserController()),
   );
