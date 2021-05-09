@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { EmailAlreadyConfirmedException, UserNotFoundException } from '@/domain/errors';
 import { ConfirmEmail } from '@/domain/usecases';
 import { ConfirmEmailController, ConfirmEmailRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 
 type SutTypes = {
   sut: ConfirmEmailController;
@@ -17,8 +18,11 @@ const makeSut = (): SutTypes => {
   return { sut, confirmEmailSpy };
 };
 
-const mockRequest = (): ConfirmEmailRequest => ({
-  emailConfirmToken: faker.datatype.uuid(),
+const mockRequest = (): HttpRequest<ConfirmEmailRequest> => ({
+  context: {},
+  data: {
+    emailConfirmToken: faker.datatype.uuid(),
+  },
 });
 
 describe('ConfirmEmailController', () => {
@@ -28,7 +32,7 @@ describe('ConfirmEmailController', () => {
 
     await sut.handle(request);
 
-    expect(confirmEmailSpy.confirm).toHaveBeenCalledWith(request.emailConfirmToken);
+    expect(confirmEmailSpy.confirm).toHaveBeenCalledWith(request.data.emailConfirmToken);
   });
 
   it('should return 204 on success', async () => {

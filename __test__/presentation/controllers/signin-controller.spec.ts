@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { IncorrectPasswordException, UserNotFoundException } from '@/domain/errors';
 import { Signin } from '@/domain/usecases';
 import { SigninController, SigninRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 import { mockAuthorization } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
 
@@ -21,9 +22,12 @@ const makeSut = (): SutTypes => {
   return { sut, signinSpy };
 };
 
-const mockRequest = (): SigninRequest => ({
-  email: faker.internet.email(),
-  password: faker.internet.password(),
+const mockRequest = (): HttpRequest<SigninRequest> => ({
+  context: {},
+  data: {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  },
 });
 
 describe('SigninController', () => {
@@ -33,7 +37,7 @@ describe('SigninController', () => {
 
     await sut.handle(request);
 
-    expect(signinSpy.attempt).toHaveBeenCalledWith(request);
+    expect(signinSpy.attempt).toHaveBeenCalledWith(request.data);
   });
 
   it('should return 200 with Signin protected response', async () => {

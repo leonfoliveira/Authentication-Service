@@ -1,14 +1,14 @@
 import { IncorrectPasswordException, UserNotFoundException } from '@/domain/errors';
 import { Signin } from '@/domain/usecases';
 import { HttpResponseFactory, protectUser } from '@/presentation/helpers';
-import { Controller, HttpResponse } from '@/presentation/interfaces';
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/interfaces';
 
 export class SigninController implements Controller<SigninRequest> {
   constructor(private readonly signin: Signin) {}
 
-  async handle(request: SigninRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<SigninRequest>): Promise<HttpResponse> {
     try {
-      const authorization = await this.signin.attempt(request);
+      const authorization = await this.signin.attempt(request.data);
 
       return HttpResponseFactory.makeOk({
         ...authorization,

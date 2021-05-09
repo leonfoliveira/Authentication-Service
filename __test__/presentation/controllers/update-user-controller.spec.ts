@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { EmailInUseException, UserNotFoundException } from '@/domain/errors';
 import { UpdateUser } from '@/domain/usecases';
 import { UpdateUserController, UpdateUserRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
 
@@ -21,11 +22,14 @@ const makeSut = (): SutTypes => {
   return { sut, updateUserSpy };
 };
 
-const mockRequest = (): UpdateUserRequest => ({
-  id: faker.datatype.uuid(),
-  name: faker.name.firstName(),
-  surname: faker.name.lastName(),
-  email: faker.internet.email(),
+const mockRequest = (): HttpRequest<UpdateUserRequest> => ({
+  context: {},
+  data: {
+    id: faker.datatype.uuid(),
+    name: faker.name.firstName(),
+    surname: faker.name.lastName(),
+    email: faker.internet.email(),
+  },
 });
 
 describe('UpdateUserController', () => {
@@ -35,7 +39,7 @@ describe('UpdateUserController', () => {
 
     await sut.handle(request);
 
-    const { id, ...rest } = request;
+    const { id, ...rest } = request.data;
     expect(updateUserSpy.update).toHaveBeenCalledWith(id, rest);
   });
 

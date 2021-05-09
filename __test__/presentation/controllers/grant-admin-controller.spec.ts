@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { UserNotFoundException } from '@/domain/errors';
 import { GrantAdmin } from '@/domain/usecases';
 import { GrantAdminController, GrantAdminRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 
 type SutTypes = {
   sut: GrantAdminController;
@@ -17,8 +18,11 @@ const makeSut = (): SutTypes => {
   return { sut, grantAdminSpy };
 };
 
-const mockRequest = (): GrantAdminRequest => ({
-  userId: faker.datatype.uuid(),
+const mockRequest = (): HttpRequest<GrantAdminRequest> => ({
+  context: {},
+  data: {
+    userId: faker.datatype.uuid(),
+  },
 });
 
 describe('GrantAdminController', () => {
@@ -28,7 +32,7 @@ describe('GrantAdminController', () => {
 
     await sut.handle(request);
 
-    expect(grantAdminSpy.grant).toHaveBeenCalledWith(request.userId);
+    expect(grantAdminSpy.grant).toHaveBeenCalledWith(request.data.userId);
   });
 
   it('should return 204 on success', async () => {

@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { UserNotFoundException } from '@/domain/errors';
 import { UpdatePassword } from '@/domain/usecases';
 import { UpdatePasswordController, UpdatePasswordRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 
 type SutTypes = {
   sut: UpdatePasswordController;
@@ -17,9 +18,12 @@ const makeSut = (): SutTypes => {
   return { sut, updatePasswordSpy };
 };
 
-const mockRequest = (): UpdatePasswordRequest => ({
-  passwordResetToken: faker.datatype.uuid(),
-  password: faker.internet.password(),
+const mockRequest = (): HttpRequest<UpdatePasswordRequest> => ({
+  context: {},
+  data: {
+    passwordResetToken: faker.datatype.uuid(),
+    password: faker.internet.password(),
+  },
 });
 
 describe('UpdatePasswordController', () => {
@@ -30,8 +34,8 @@ describe('UpdatePasswordController', () => {
     await sut.handle(request);
 
     expect(updatePasswordSpy.update).toHaveBeenCalledWith(
-      request.passwordResetToken,
-      request.password,
+      request.data.passwordResetToken,
+      request.data.password,
     );
   });
 

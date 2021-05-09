@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { EmailInUseException } from '@/domain/errors';
 import { Signup } from '@/domain/usecases';
 import { SignupController, SignupRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 import { mockUser } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
 
@@ -21,11 +22,14 @@ const makeSut = (): SutTypes => {
   return { sut, signupSpy };
 };
 
-const mockRequest = (): SignupRequest => ({
-  name: faker.name.firstName(),
-  surname: faker.name.lastName(),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
+const mockRequest = (): HttpRequest<SignupRequest> => ({
+  context: {},
+  data: {
+    name: faker.name.firstName(),
+    surname: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  },
 });
 
 describe('SignupController', () => {
@@ -35,7 +39,7 @@ describe('SignupController', () => {
 
     await sut.handle(request);
 
-    expect(signupSpy.attempt).toHaveBeenCalledWith(request);
+    expect(signupSpy.attempt).toHaveBeenCalledWith(request.data);
   });
 
   it('should return 201 with Signup protected response', async () => {

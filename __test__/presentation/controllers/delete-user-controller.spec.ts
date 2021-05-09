@@ -4,6 +4,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { UserNotFoundException } from '@/domain/errors';
 import { DeleteUser } from '@/domain/usecases';
 import { DeleteUserController, DeleteUserRequest } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 
 type SutTypes = {
   sut: DeleteUserController;
@@ -17,8 +18,11 @@ const makeSut = (): SutTypes => {
   return { sut, deleteUserSpy };
 };
 
-const mockRequest = (): DeleteUserRequest => ({
-  id: faker.datatype.uuid(),
+const mockRequest = (): HttpRequest<DeleteUserRequest> => ({
+  context: {},
+  data: {
+    id: faker.datatype.uuid(),
+  },
 });
 
 describe('DeleteUserController', () => {
@@ -28,7 +32,7 @@ describe('DeleteUserController', () => {
 
     await sut.handle(request);
 
-    expect(deleteUserSpy.delete).toHaveBeenCalledWith(request.id);
+    expect(deleteUserSpy.delete).toHaveBeenCalledWith(request.data.id);
   });
 
   it('should return 204 on success', async () => {

@@ -1,14 +1,14 @@
 import { UserNotFoundException } from '@/domain/errors';
 import { RefreshAuthorization } from '@/domain/usecases';
 import { HttpResponseFactory, protectUser } from '@/presentation/helpers';
-import { Controller, HttpResponse } from '@/presentation/interfaces';
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/interfaces';
 
 export class RefreshAuthorizationController implements Controller<RefreshAuthorizationRequest> {
   constructor(private readonly refreshAuthorization: RefreshAuthorization) {}
 
-  async handle(request: RefreshAuthorizationRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<RefreshAuthorizationRequest>): Promise<HttpResponse> {
     try {
-      const authorization = await this.refreshAuthorization.refresh(request.refreshToken);
+      const authorization = await this.refreshAuthorization.refresh(request.data.refreshToken);
 
       return HttpResponseFactory.makeOk({
         ...authorization,

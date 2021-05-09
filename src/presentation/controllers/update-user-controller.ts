@@ -1,14 +1,14 @@
 import { EmailInUseException, UserNotFoundException } from '@/domain/errors';
 import { UpdateUser } from '@/domain/usecases';
 import { HttpResponseFactory, protectUser } from '@/presentation/helpers';
-import { Controller, HttpResponse } from '@/presentation/interfaces';
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/interfaces';
 
 export class UpdateUserController implements Controller<UpdateUserRequest> {
   constructor(private readonly updateUser: UpdateUser) {}
 
-  async handle(request: UpdateUserRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<UpdateUserRequest>): Promise<HttpResponse> {
     try {
-      const { id, ...rest } = request;
+      const { id, ...rest } = request.data;
       const user = await this.updateUser.update(id, rest);
 
       return HttpResponseFactory.makeOk(protectUser(user));

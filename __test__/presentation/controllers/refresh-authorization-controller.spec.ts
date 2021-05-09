@@ -7,6 +7,7 @@ import {
   RefreshAuthorizationController,
   RefreshAuthorizationRequest,
 } from '@/presentation/controllers';
+import { HttpRequest } from '@/presentation/interfaces';
 import { mockAuthorization } from '@/test/domain/models';
 import { getAsyncReturn } from '@/test/helpers';
 
@@ -24,8 +25,11 @@ const makeSut = (): SutTypes => {
   return { sut, refreshAuthorizationSpy };
 };
 
-const mockRequest = (): RefreshAuthorizationRequest => ({
-  refreshToken: faker.datatype.uuid(),
+const mockRequest = (): HttpRequest<RefreshAuthorizationRequest> => ({
+  context: {},
+  data: {
+    refreshToken: faker.datatype.uuid(),
+  },
 });
 
 describe('RefreshAuthorizationController', () => {
@@ -35,7 +39,7 @@ describe('RefreshAuthorizationController', () => {
 
     await sut.handle(request);
 
-    expect(refreshAuthorizationSpy.refresh).toHaveBeenCalledWith(request.refreshToken);
+    expect(refreshAuthorizationSpy.refresh).toHaveBeenCalledWith(request.data.refreshToken);
   });
 
   it('should return 200 with RefreshAuthorization protected response', async () => {

@@ -1,8 +1,17 @@
+import { User } from '@/domain/models';
+
 export interface Controller<T = any> {
-  handle: (request: T) => Promise<HttpResponse<T>>;
+  handle: (request: HttpRequest<T>) => Promise<HttpResponse>;
 }
 
-export type HttpResponse<T = any> = {
+export type HttpRequest<T = any> = {
+  context: {
+    user?: User;
+  };
+  data: T;
+};
+
+export type HttpResponse = {
   statusCode: number;
-  body?: T;
+  body?: any;
 };

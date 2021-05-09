@@ -1,14 +1,14 @@
 import { UserNotFoundException } from '@/domain/errors';
 import { GrantAdmin } from '@/domain/usecases';
 import { HttpResponseFactory } from '@/presentation/helpers';
-import { Controller, HttpResponse } from '@/presentation/interfaces';
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/interfaces';
 
 export class GrantAdminController implements Controller<GrantAdminRequest> {
   constructor(private readonly grantAdmin: GrantAdmin) {}
 
-  async handle(request: GrantAdminRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<GrantAdminRequest>): Promise<HttpResponse> {
     try {
-      await this.grantAdmin.grant(request.userId);
+      await this.grantAdmin.grant(request.data.userId);
 
       return HttpResponseFactory.makeNoContent();
     } catch (error) {

@@ -2,6 +2,7 @@ import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
 import { DecodeAccessToken } from '@/domain/usecases';
+import { HttpRequest } from '@/presentation/interfaces';
 import { AuthMiddleware, AuthRequest } from '@/presentation/middlewares';
 import { mockUser } from '@/test/domain/models';
 import { getReturn } from '@/test/helpers';
@@ -20,15 +21,18 @@ const makeSut = (isAdminRequired = false): SutTypes => {
   return { sut, decodeAccessTokenSpy };
 };
 
-const mockRequest = (accessToken = faker.datatype.uuid()): AuthRequest => ({
-  authorization: `Bearer ${accessToken}`,
+const mockRequest = (accessToken = faker.datatype.uuid()): HttpRequest<AuthRequest> => ({
+  context: {},
+  data: {
+    authorization: `Bearer ${accessToken}`,
+  },
 });
 
 describe('AuthMiddleware', () => {
   it('should return 401 if no authorization is provided', async () => {
     const { sut } = makeSut();
 
-    const result = await sut.handle({});
+    const result = await sut.handle({ context: {}, data: {} });
 
     expect(result).toHaveProperty('statusCode', 401);
   });
@@ -36,7 +40,10 @@ describe('AuthMiddleware', () => {
   it('should return 401 if authorization is not in Bearer format', async () => {
     const { sut } = makeSut();
 
-    const result = await sut.handle({ authorization: faker.datatype.uuid() });
+    const result = await sut.handle({
+      context: {},
+      data: { authorization: faker.datatype.uuid() },
+    });
 
     expect(result).toHaveProperty('statusCode', 401);
   });

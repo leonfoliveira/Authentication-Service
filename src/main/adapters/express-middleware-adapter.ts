@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { Controller } from '@/presentation/interfaces';
+import { Controller, HttpRequest } from '@/presentation/interfaces';
 
 type ReturnType = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
@@ -10,11 +10,14 @@ export const adaptMiddleware = (middleware: Controller): ReturnType => async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const request: Record<string, any> = {
-      ...req.params,
-      ...req.headers,
-      ...req.body,
-      ...req.cookies,
+    const request: HttpRequest<Record<string, any>> = {
+      context: {},
+      data: {
+        ...req.params,
+        ...req.headers,
+        ...req.body,
+        ...req.cookies,
+      },
     };
 
     const httpResponse = await middleware.handle(request);

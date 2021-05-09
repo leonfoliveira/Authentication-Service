@@ -1,6 +1,6 @@
 import { DecodeAccessToken } from '@/domain/usecases';
 import { HttpResponseFactory } from '@/presentation/helpers';
-import { Controller, HttpResponse } from '@/presentation/interfaces';
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/interfaces';
 
 export class AuthMiddleware implements Controller<AuthRequest> {
   constructor(
@@ -8,16 +8,16 @@ export class AuthMiddleware implements Controller<AuthRequest> {
     private readonly isAdminRequired = false,
   ) {}
 
-  async handle(request: AuthRequest): Promise<HttpResponse> {
-    if (!request.authorization) {
+  async handle(request: HttpRequest<AuthRequest>): Promise<HttpResponse> {
+    if (!request.data.authorization) {
       return HttpResponseFactory.makeUnauthorized();
     }
 
-    if (!/^Bearer .+/.test(request.authorization)) {
+    if (!/^Bearer .+/.test(request.data.authorization)) {
       return HttpResponseFactory.makeUnauthorized();
     }
 
-    const accessToken = request.authorization.replace('Bearer ', '');
+    const accessToken = request.data.authorization.replace('Bearer ', '');
     const user = this.decodeAccessToken.decode(accessToken);
 
     if (!user) {
