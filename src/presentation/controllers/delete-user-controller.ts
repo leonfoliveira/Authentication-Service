@@ -8,6 +8,10 @@ export class DeleteUserController implements Controller<DeleteUserRequest> {
 
   async handle(request: HttpRequest<DeleteUserRequest>): Promise<HttpResponse> {
     try {
+      if (!request.context.user.isAdmin && request.context.user.id !== request.data.id) {
+        return HttpResponseFactory.makeUnauthorized();
+      }
+
       await this.deleteUser.delete(request.data.id);
 
       return HttpResponseFactory.makeNoContent();

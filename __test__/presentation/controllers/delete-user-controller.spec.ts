@@ -5,6 +5,7 @@ import { UserNotFoundException } from '@/domain/errors';
 import { DeleteUser } from '@/domain/usecases';
 import { DeleteUserController, DeleteUserRequest } from '@/presentation/controllers';
 import { HttpRequest } from '@/presentation/interfaces';
+import { mockUser } from '@/test/domain/models';
 
 type SutTypes = {
   sut: DeleteUserController;
@@ -18,14 +19,30 @@ const makeSut = (): SutTypes => {
   return { sut, deleteUserSpy };
 };
 
-const mockRequest = (): HttpRequest<DeleteUserRequest> => ({
-  context: {},
-  data: {
-    id: faker.datatype.uuid(),
-  },
-});
+const mockRequest = (): HttpRequest<DeleteUserRequest> => {
+  const id = faker.datatype.uuid();
+  return {
+    context: {
+      user: { ...mockUser(), id },
+    },
+    data: {
+      id,
+    },
+  };
+};
 
 describe('DeleteUserController', () => {
+  it('should return 401 if the sender is not the target and not admin', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle({
+      ...mockRequest(),
+      context: { user: { ...mockUser(), id: 'any', isAdmin: false } },
+    });
+
+    expect(response).toHaveProperty('statusCode', 401);
+  });
+
   it('should call DeleteUserRequest with correct params', async () => {
     const { sut, deleteUserSpy } = makeSut();
     const request = mockRequest();

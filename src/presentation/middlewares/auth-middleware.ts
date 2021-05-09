@@ -28,7 +28,7 @@ export class AuthMiddleware implements Controller<AuthRequest> {
       return HttpResponseFactory.makeUnauthorized();
     }
 
-    return HttpResponseFactory.makeOk(user);
+    return HttpResponseFactory.makeOk({ user });
   }
 }
 

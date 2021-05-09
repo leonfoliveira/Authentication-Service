@@ -23,6 +23,7 @@ export const adaptMiddleware = (middleware: Controller): ReturnType => async (
     const httpResponse = await middleware.handle(request);
 
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+      Object.assign(req, httpResponse.body);
       next();
     } else {
       res.status(httpResponse.statusCode).json(httpResponse.body);

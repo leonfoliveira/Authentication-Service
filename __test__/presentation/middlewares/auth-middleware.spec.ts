@@ -81,6 +81,9 @@ describe('AuthMiddleware', () => {
 
     const result = await sut.handle(mockRequest());
 
-    expect(result).toEqual({ statusCode: 200, body: getReturn(decodeAccessTokenSpy.decode) });
+    expect(result).toEqual({
+      statusCode: 200,
+      body: { user: getReturn(decodeAccessTokenSpy.decode) },
+    });
   });
 });

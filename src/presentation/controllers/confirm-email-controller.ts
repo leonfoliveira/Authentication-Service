@@ -9,6 +9,7 @@ export class ConfirmEmailController implements Controller<ConfirmEmailRequest> {
   async handle(request: HttpRequest<ConfirmEmailRequest>): Promise<HttpResponse> {
     try {
       await this.confirmEmail.confirm(request.data.emailConfirmToken);
+
       return HttpResponseFactory.makeNoContent();
     } catch (error) {
       if (error.name === UserNotFoundException.name) {

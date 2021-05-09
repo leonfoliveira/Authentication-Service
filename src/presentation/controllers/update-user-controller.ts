@@ -9,6 +9,11 @@ export class UpdateUserController implements Controller<UpdateUserRequest> {
   async handle(request: HttpRequest<UpdateUserRequest>): Promise<HttpResponse> {
     try {
       const { id, ...rest } = request.data;
+
+      if (!request.context.user.isAdmin && request.context.user.id !== id) {
+        return HttpResponseFactory.makeUnauthorized();
+      }
+
       const user = await this.updateUser.update(id, rest);
 
       return HttpResponseFactory.makeOk(protectUser(user));

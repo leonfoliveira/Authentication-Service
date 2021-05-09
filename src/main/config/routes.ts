@@ -46,15 +46,15 @@ export default (app: Express): void => {
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeUpdatePasswordController()),
   );
+  router.delete(
+    '/user/:id',
+    adaptMiddleware(makeAuthMiddleware()),
+    adaptRoute(makeDeleteUserController()),
+  );
 
   router.patch(
     '/admin',
     adaptMiddleware(makeAuthMiddleware(true)),
     adaptRoute(makeGrantAdminController()),
-  );
-  router.delete(
-    '/user/:id',
-    adaptMiddleware(makeAuthMiddleware(true)),
-    adaptRoute(makeDeleteUserController()),
   );
 };

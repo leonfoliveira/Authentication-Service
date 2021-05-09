@@ -22,17 +22,33 @@ const makeSut = (): SutTypes => {
   return { sut, updateUserSpy };
 };
 
-const mockRequest = (): HttpRequest<UpdateUserRequest> => ({
-  context: {},
-  data: {
-    id: faker.datatype.uuid(),
-    name: faker.name.firstName(),
-    surname: faker.name.lastName(),
-    email: faker.internet.email(),
-  },
-});
+const mockRequest = (): HttpRequest<UpdateUserRequest> => {
+  const id = faker.datatype.uuid();
+  return {
+    context: {
+      user: { ...mockUser(), id },
+    },
+    data: {
+      id,
+      name: faker.name.firstName(),
+      surname: faker.name.lastName(),
+      email: faker.internet.email(),
+    },
+  };
+};
 
 describe('UpdateUserController', () => {
+  it('should return 401 if the sender is not the target and not admin', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle({
+      ...mockRequest(),
+      context: { user: { ...mockUser(), id: 'any', isAdmin: false } },
+    });
+
+    expect(response).toHaveProperty('statusCode', 401);
+  });
+
   it('should call UpdateUser with correct params', async () => {
     const { sut, updateUserSpy } = makeSut();
     const request = mockRequest();
