@@ -72,4 +72,13 @@ describe('RefreshAuthorizationController', () => {
 
     expect(response).toHaveProperty('statusCode', 401);
   });
+
+  it('should throw if RefreshAuthorization throws any other exception', async () => {
+    const { sut, refreshAuthorizationSpy } = makeSut();
+    refreshAuthorizationSpy.refresh.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });

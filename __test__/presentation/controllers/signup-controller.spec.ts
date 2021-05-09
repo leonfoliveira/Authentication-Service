@@ -68,4 +68,13 @@ describe('SignupController', () => {
 
     expect(response).toHaveProperty('statusCode', 409);
   });
+
+  it('should throw if Signup throws any other exception', async () => {
+    const { sut, signupSpy } = makeSut();
+    signupSpy.attempt.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });

@@ -60,4 +60,13 @@ describe('ConfirmEmailController', () => {
 
     expect(result).toEqual({ statusCode: 400, body: { message: 'Email is already confirmed.' } });
   });
+
+  it('should throw if ConfirmEmail throws any other exception', async () => {
+    const { sut, confirmEmailSpy } = makeSut();
+    confirmEmailSpy.confirm.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });

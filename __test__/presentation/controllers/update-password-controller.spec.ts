@@ -57,4 +57,13 @@ describe('UpdatePasswordController', () => {
 
     expect(response).toHaveProperty('statusCode', 404);
   });
+
+  it('should throw if UpdatePassword throws any other exception', async () => {
+    const { sut, updatePasswordSpy } = makeSut();
+    updatePasswordSpy.update.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });

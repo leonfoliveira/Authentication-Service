@@ -94,4 +94,13 @@ describe('UpdateUserController', () => {
 
     expect(response).toHaveProperty('statusCode', 409);
   });
+
+  it('should throw if UpdateUser throws any other exception', async () => {
+    const { sut, updateUserSpy } = makeSut();
+    updateUserSpy.update.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });

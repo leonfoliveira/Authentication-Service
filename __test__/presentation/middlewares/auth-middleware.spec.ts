@@ -12,7 +12,7 @@ type SutTypes = {
   decodeAccessTokenSpy: MockProxy<DecodeAccessToken>;
 };
 
-const makeSut = (isAdminRequired = false): SutTypes => {
+const makeSut = (isAdminRequired?: boolean): SutTypes => {
   const decodeAccessTokenSpy = mock<DecodeAccessToken>({
     decode: jest.fn().mockReturnValue(mockUser()),
   });

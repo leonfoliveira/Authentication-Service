@@ -50,4 +50,13 @@ describe('ResetPasswordController', () => {
 
     expect(response).toHaveProperty('statusCode', 404);
   });
+
+  it('should throw if ResetPassword throws any other exception', async () => {
+    const { sut, resetPasswordSpy } = makeSut();
+    resetPasswordSpy.reset.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });

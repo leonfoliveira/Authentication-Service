@@ -68,4 +68,13 @@ describe('DeleteUserController', () => {
 
     expect(response).toHaveProperty('statusCode', 404);
   });
+
+  it('should throw if DeleteUserRequest throws any other exception', async () => {
+    const { sut, deleteUserSpy } = makeSut();
+    deleteUserSpy.delete.mockRejectedValueOnce(new Error());
+
+    const promise = sut.handle(mockRequest());
+
+    await expect(promise).rejects.toThrow(new Error());
+  });
 });
