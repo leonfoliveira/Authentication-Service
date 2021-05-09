@@ -21,7 +21,7 @@ export const HttpResponseFactory = {
   makeUnauthorized: (): HttpResponse => ({
     statusCode: 401,
     body: {
-      message: 'Email not found or incorrect password.',
+      message: 'Invalid credentials.',
     },
   }),
   makeNotFound: (): HttpResponse => ({

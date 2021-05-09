@@ -53,7 +53,7 @@ export default (app: Express): void => {
     adaptRoute(makeGrantAdminController()),
   );
   router.delete(
-    '/user',
+    '/user/:id',
     adaptMiddleware(makeAuthMiddleware(true)),
     adaptRoute(makeDeleteUserController()),
   );
