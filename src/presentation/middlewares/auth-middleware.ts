@@ -25,7 +25,7 @@ export class AuthMiddleware implements Controller<AuthRequest> {
     }
 
     if (this.isAdminRequired && !user.isAdmin) {
-      return HttpResponseFactory.makeUnauthorized();
+      return HttpResponseFactory.makeForbidden();
     }
 
     return HttpResponseFactory.makeOk({ user });

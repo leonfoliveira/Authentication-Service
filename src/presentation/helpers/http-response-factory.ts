@@ -24,6 +24,12 @@ export const HttpResponseFactory = {
       message: 'Invalid credentials.',
     },
   }),
+  makeForbidden: (): HttpResponse => ({
+    statusCode: 403,
+    body: {
+      message: 'Access denied.',
+    },
+  }),
   makeNotFound: (): HttpResponse => ({
     statusCode: 404,
     body: {

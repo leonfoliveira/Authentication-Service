@@ -67,13 +67,13 @@ describe('AuthMiddleware', () => {
     expect(result).toHaveProperty('statusCode', 401);
   });
 
-  it('should return 401 if DecodeAccessToken return a non admin user and admin is required', async () => {
+  it('should return 403 if DecodeAccessToken return a non admin user and admin is required', async () => {
     const { sut, decodeAccessTokenSpy } = makeSut(true);
     decodeAccessTokenSpy.decode.mockReturnValue({ ...mockUser(), isAdmin: false });
 
     const result = await sut.handle(mockRequest());
 
-    expect(result).toHaveProperty('statusCode', 401);
+    expect(result).toHaveProperty('statusCode', 403);
   });
 
   it('should return 200 with DecodeAccessToken return', async () => {
