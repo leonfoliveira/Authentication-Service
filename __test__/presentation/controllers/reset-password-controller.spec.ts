@@ -1,10 +1,10 @@
-import faker from 'faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
 import { UserNotFoundException } from '@/domain/errors';
 import { ResetPassword } from '@/domain/usecases';
-import { ResetPasswordController, ResetPasswordRequest } from '@/presentation/controllers';
+import { ResetPasswordController } from '@/presentation/controllers';
 import { HttpRequest } from '@/presentation/interfaces';
+import { mockUser } from '@/test/domain/models';
 
 type SutTypes = {
   sut: ResetPasswordController;
@@ -18,10 +18,9 @@ const makeSut = (): SutTypes => {
   return { sut, resetPasswordSpy };
 };
 
-const mockRequest = (): HttpRequest<ResetPasswordRequest> => ({
-  context: {},
-  data: {
-    userId: faker.datatype.uuid(),
+const mockRequest = (): HttpRequest => ({
+  context: {
+    user: mockUser(),
   },
 });
 
@@ -32,7 +31,7 @@ describe('ResetPasswordController', () => {
 
     await sut.handle(request);
 
-    expect(resetPasswordSpy.reset).toHaveBeenCalledWith(request.data.userId);
+    expect(resetPasswordSpy.reset).toHaveBeenCalledWith(request.context.user.id);
   });
 
   it('should return 204 on success', async () => {

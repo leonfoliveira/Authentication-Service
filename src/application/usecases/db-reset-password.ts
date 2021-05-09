@@ -17,8 +17,8 @@ export class DbResetPassword implements ResetPassword {
     }
 
     const passwordResetToken = this.tokenGenerator.generate();
-    await this.updateUserRepository.update(id, { passwordResetToken });
+    const updatedUser = await this.updateUserRepository.update(id, { passwordResetToken });
 
-    await this.sendPasswordResetEmail.send(user);
+    await this.sendPasswordResetEmail.send(updatedUser);
   }
 }

@@ -25,6 +25,7 @@ export default (app: Express): void => {
   router.post('/signup', adaptRoute(makeSignupController()));
   router.get('/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
   router.post('/signin', adaptRoute(makeSigninController()));
+  router.patch('/password/:passwordResetToken', adaptRoute(makeUpdatePasswordController()));
 
   router.post(
     '/refresh',
@@ -41,11 +42,6 @@ export default (app: Express): void => {
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeResetPasswordController()),
   );
-  router.patch(
-    '/password',
-    adaptMiddleware(makeAuthMiddleware()),
-    adaptRoute(makeUpdatePasswordController()),
-  );
   router.delete(
     '/user/:id',
     adaptMiddleware(makeAuthMiddleware()),
@@ -53,7 +49,7 @@ export default (app: Express): void => {
   );
 
   router.patch(
-    '/admin',
+    '/admin/:userId',
     adaptMiddleware(makeAuthMiddleware(true)),
     adaptRoute(makeGrantAdminController()),
   );

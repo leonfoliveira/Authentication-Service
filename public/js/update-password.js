@@ -26,6 +26,11 @@ function submitForm(e) {
     return;
   }
 
+  if (password.length < 8) {
+    error.textContent = 'Password must have at least 8 characters.';
+    return;
+  }
+
   if (password !== confirmPassword) {
     error.textContent = 'Inputs must match';
     return;
@@ -42,16 +47,19 @@ function submitForm(e) {
     } else if (this.status === 404) {
       showInvalidLink();
     } else {
+      console.log(this);
       showUnexpectedError();
     }
   };
 
   button.disabled = true;
   xhttp.open('PATCH', `http://localhost:4000/api/password/${token}`, true);
-  xhttp.send({
-    password,
-    passwordResetToken: token,
-  });
+  xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  xhttp.send(
+    JSON.stringify({
+      password,
+    }),
+  );
 }
 
 const form = document.getElementById('form');

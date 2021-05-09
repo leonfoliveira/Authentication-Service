@@ -82,12 +82,12 @@ describe('DbResetPassword', () => {
   });
 
   it('should call SendPasswordResetEmail with correct params', async () => {
-    const { sut, findUserRepository, sendPasswordResetEmailSpy } = makeSut();
+    const { sut, updateUserRepositorySpy, sendPasswordResetEmailSpy } = makeSut();
 
     await sut.reset(mockDTO());
 
     expect(sendPasswordResetEmailSpy.send).toHaveBeenCalledWith(
-      await getAsyncReturn(findUserRepository.find),
+      await getAsyncReturn(updateUserRepositorySpy.update),
     );
   });
 });

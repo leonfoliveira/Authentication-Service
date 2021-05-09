@@ -3,12 +3,12 @@ import { ResetPassword } from '@/domain/usecases';
 import { HttpResponseFactory } from '@/presentation/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/interfaces';
 
-export class ResetPasswordController implements Controller<ResetPasswordRequest> {
+export class ResetPasswordController implements Controller {
   constructor(private readonly resetPassword: ResetPassword) {}
 
-  async handle(request: HttpRequest<ResetPasswordRequest>): Promise<HttpResponse> {
+  async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      await this.resetPassword.reset(request.data.userId);
+      await this.resetPassword.reset(request.context.user.id);
 
       return HttpResponseFactory.makeNoContent();
     } catch (error) {
@@ -19,7 +19,3 @@ export class ResetPasswordController implements Controller<ResetPasswordRequest>
     }
   }
 }
-
-export type ResetPasswordRequest = {
-  userId: string;
-};

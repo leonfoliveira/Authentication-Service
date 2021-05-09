@@ -8,7 +8,7 @@ export type HttpRequest<T = any> = {
   context: {
     user?: User;
   };
-  data: T;
+  data?: T;
 };
 
 export type HttpResponse = {
