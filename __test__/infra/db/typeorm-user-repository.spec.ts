@@ -162,9 +162,9 @@ describe('TypeormUserRepository', () => {
       const { id } = await mockUser();
       const sut = makeSut();
 
-      await sut.confirmEmail(id);
+      await sut.grant(id);
 
-      expect((await UserEntity.findOne()).emailConfirmedAt).toEqual(new Date().toString());
+      expect((await UserEntity.findOne()).isAdmin).toEqual(true);
     });
   });
 });

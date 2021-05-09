@@ -4,7 +4,7 @@
     "<rootDir>/src/**/*.ts",
     "!<rootDir>/src/**/index.ts",
     "!<rootDir>/src/main/**",
-    "!<rootDir>/src/main/utils"
+    "!<rootDir>/src/domain/**"
   ],
   "coverageDirectory": "coverage",
   "setupFilesAfterEnv": ["<rootDir>/__test__/config/typeorm-setup.ts"],

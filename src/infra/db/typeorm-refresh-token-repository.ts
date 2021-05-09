@@ -33,30 +33,17 @@ export class TypeormRefreshTokenRepository
     await RefreshTokensEntity.delete({ token });
   }
 
-  private adapt(entity: RefreshTokensEntity): any {
-    return entity
-      ? {
-          id: entity.id,
-          user: entity.user,
-          token: entity.token,
-          issuedAt: entity.issuedAt,
-        }
-      : null;
-  }
-
   private adaptUser(entity: UserEntity): any {
-    return entity
-      ? {
-          id: entity.id,
-          name: entity.name,
-          surname: entity.surname,
-          email: entity.email,
-          password: entity.password,
-          isAdmin: entity.isAdmin,
-          emailConfirmedAt: entity.emailConfirmedAt,
-          emailConfirmToken: entity.emailConfirmToken,
-          passwordResetToken: entity.passwordResetToken,
-        }
-      : null;
+    return {
+      id: entity.id,
+      name: entity.name,
+      surname: entity.surname,
+      email: entity.email,
+      password: entity.password,
+      isAdmin: entity.isAdmin,
+      emailConfirmedAt: entity.emailConfirmedAt,
+      emailConfirmToken: entity.emailConfirmToken,
+      passwordResetToken: entity.passwordResetToken,
+    };
   }
 }
