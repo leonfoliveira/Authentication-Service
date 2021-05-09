@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.message {
+#message {
   font-size: 20px;
   color: #2e8bc0;
   font-weight: bold;

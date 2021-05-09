@@ -20,6 +20,7 @@ export default (app: Express): void => {
 
   app.set('view engine', 'ejs');
   app.get('/confirm/:emailConfirmToken', adaptView('confirm-email.ejs'));
+  app.get('/password/:passwordResetToken', adaptView('password-update.ejs'));
 
   router.post('/signup', adaptRoute(makeSignupController()));
   router.get('/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));

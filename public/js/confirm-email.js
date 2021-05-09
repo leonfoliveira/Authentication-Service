@@ -1,22 +1,22 @@
 const wrapper = document.getElementById('wrapper');
 
 function showSuccess() {
-  const element = '<p class="message">Email confirmed successfully</p>';
+  const element = '<p id="message">Email confirmed successfully</p>';
   wrapper.innerHTML = element;
 }
 
 function showAlreadyConfirmed() {
-  const element = '<p class="message">Email already confirmed</p>';
+  const element = '<p id="message">Email already confirmed</p>';
   wrapper.innerHTML = element;
 }
 
 function showInvalidLink() {
-  const element = '<p class="message">Invalid link</p>';
+  const element = '<p id="message">Invalid link</p>';
   wrapper.innerHTML = element;
 }
 
 function showUnexpectedError() {
-  const element = '<p class="message">An unexpected error has occured. Please try again.</p>';
+  const element = '<p id="message">An unexpected error has occured. Please try again.</p>';
   wrapper.innerHTML = element;
 }
 
