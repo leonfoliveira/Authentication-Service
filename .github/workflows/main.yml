@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    branches:
+      - development
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.x
+      - uses: actions/cache@v2.1.4
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install
+      - run: yarn eslint .
+      - run: yarn test:ci
+      - run: yarn build
+      - uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
