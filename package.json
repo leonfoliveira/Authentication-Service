@@ -31,6 +31,7 @@
     "module-alias": "^2.2.2",
     "nodemailer": "^6.6.0",
     "pg": "^8.6.0",
+    "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.32",
     "uuid": "^8.3.2"
   },
@@ -45,6 +46,7 @@
     "@types/node": "^15.0.2",
     "@types/nodemailer": "^6.4.1",
     "@types/supertest": "^2.0.11",
+    "@types/swagger-ui-express": "^4.1.2",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "eslint": "^7.25.0",

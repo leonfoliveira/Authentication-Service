@@ -1,0 +1,62 @@
+{
+  "post": {
+    "tags": ["Authentication"],
+    "summary": "Create User",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              },
+              "surname": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "password": {
+                "type": "string",
+                "format": "password",
+                "minLength": 8
+              }
+            },
+            "required": ["name", "surname", "email", "password"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/schemas/authorization"
+            }
+          }
+        }
+      },
+      "400": {
+        "$ref": "#/components/bad-request"
+      },
+      "404": {
+        "$ref": "#/components/not-found"
+      },
+      "409": {
+        "$ref": "#/components/conflict"
+      },
+      "500": {
+        "$ref": "#/components/internal-server-error"
+      }
+    }
+  }
+}
