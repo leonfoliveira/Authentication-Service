@@ -7,7 +7,7 @@
     "!<rootDir>/src/domain/**"
   ],
   "coverageDirectory": "coverage",
-  "setupFilesAfterEnv": ["<rootDir>/__test__/config/typeorm-setup.ts"],
+  "setupFilesAfterEnv": ["<rootDir>/__test__/config/typeorm-setup.ts", "dotenv/config"],
   "testEnvironment": "node",
   "transform": {
     ".+\\.ts$": "ts-jest"

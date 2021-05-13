@@ -23,9 +23,9 @@ export default (app: Express): void => {
   app.get('/password/:passwordResetToken', adaptView('password-update.ejs'));
 
   router.post('/signup', adaptRoute(makeSignupController()));
-  router.get('/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
+  router.post('/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
   router.post('/signin', adaptRoute(makeSigninController()));
-  router.patch('/password/:passwordResetToken', adaptRoute(makeUpdatePasswordController()));
+  router.post('/password/:passwordResetToken', adaptRoute(makeUpdatePasswordController()));
 
   router.post(
     '/refresh',

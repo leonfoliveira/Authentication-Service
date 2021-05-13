@@ -36,7 +36,7 @@ function confirmEmail() {
     }
   };
 
-  xhttp.open('GET', `http://localhost:4000/api/confirm/${token}`, true);
+  xhttp.open('POST', `http://localhost:4000/api/confirm/${token}`, true);
   xhttp.send();
 }
 
