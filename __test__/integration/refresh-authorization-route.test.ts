@@ -21,7 +21,7 @@ describe('RefreshAuthorizationRoute', () => {
     const user = await mockUserEntity({ email: 'any_email@mail.com', password: 'any_password' });
     const refreshToken = await mockRefreshToken(user, 'any_token');
     const httpResponse = await request(app)
-      .post('/api/refresh')
+      .post('/api/auth/refresh')
       .set('authorization', mockAuthorization(user))
       .set('cookie', `refreshToken=${refreshToken.token}`)
       .send(mockRequest().body);

@@ -19,7 +19,7 @@ describe('UpdateUserRoute', () => {
   it('should update a User', async () => {
     const user = await mockUserEntity({});
     const httpResponse = await request(app)
-      .put(`/api/user/${user.id}`)
+      .put(`/api/user/${user.id}/update`)
       .set('authorization', mockAuthorization(user))
       .send(mockRequest().body);
     expect(httpResponse.status).toBe(200);

@@ -15,9 +15,11 @@ describe('UpdatePasswordRoute', () => {
     const user = await mockUserEntity({
       passwordResetToken: 'any_token',
     });
-    const httpResponse = await request(app).post(`/api/password/${user.passwordResetToken}`).send({
-      password: 'any_password',
-    });
+    const httpResponse = await request(app)
+      .post(`/api/auth/password/${user.passwordResetToken}`)
+      .send({
+        password: 'any_password',
+      });
     expect(httpResponse.status).toBe(204);
     expect(await bcrypt.compare('any_password', (await UserEntity.findOne()).password)).toBe(true);
   });

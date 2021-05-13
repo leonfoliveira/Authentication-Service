@@ -13,7 +13,9 @@ describe('SignupRoute', () => {
     const user = await mockUserEntity({
       emailConfirmedAt: null,
     });
-    const httpResponse = await request(app).post(`/api/confirm/${user.emailConfirmToken}`).send();
+    const httpResponse = await request(app)
+      .post(`/api/user/confirm/${user.emailConfirmToken}`)
+      .send();
     expect(httpResponse.status).toBe(204);
   });
 });

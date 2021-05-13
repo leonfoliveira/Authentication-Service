@@ -19,7 +19,7 @@ describe('GrandAdminRoute', () => {
       isAdmin: true,
     });
     const httpResponse = await request(app)
-      .patch(`/api/admin/${user.id}`)
+      .patch(`/api/user/${user.id}/grant`)
       .set('authorization', mockAuthorization(admin))
       .send();
     expect(httpResponse.status).toBe(204);

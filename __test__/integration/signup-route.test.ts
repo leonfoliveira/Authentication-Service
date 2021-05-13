@@ -19,7 +19,7 @@ describe('SignupRoute', () => {
   afterAll(MemoryDb.disconnect);
 
   it('should create a new User', async () => {
-    const httpResponse = await request(app).post('/api/signup').send(mockRequest().body);
+    const httpResponse = await request(app).post('/api/auth/signup').send(mockRequest().body);
     const user = await UserEntity.findOne();
     expect(httpResponse.status).toBe(201);
     expect(httpResponse.body).toHaveProperty('id', user.id);

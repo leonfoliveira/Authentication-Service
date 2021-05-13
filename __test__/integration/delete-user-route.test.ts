@@ -13,7 +13,7 @@ describe('DeleteUserRoute', () => {
   it('should delete a User', async () => {
     const user = await mockUserEntity({});
     const httpResponse = await request(app)
-      .delete(`/api/user/${user.id}`)
+      .delete(`/api/user/${user.id}/delete`)
       .set('authorization', mockAuthorization(user))
       .send();
     expect(httpResponse.status).toBe(204);

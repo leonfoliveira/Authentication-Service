@@ -19,7 +19,7 @@ describe('ResetPasswordRoute', () => {
   it('should get an Authorization', async () => {
     const user = await mockUserEntity({});
     const httpResponse = await request(app)
-      .post('/api/reset')
+      .post('/api/auth/reset')
       .set('authorization', mockAuthorization(user))
       .send(mockRequest().body);
     expect(httpResponse.status).toBe(204);

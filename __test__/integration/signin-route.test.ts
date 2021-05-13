@@ -19,7 +19,7 @@ describe('SigninRoute', () => {
 
   it('should get an Authorization', async () => {
     await mockUserEntity({ email: 'any_email@mail.com', password: 'any_password' });
-    const httpResponse = await request(app).post('/api/signin').send(mockRequest().body);
+    const httpResponse = await request(app).post('/api/auth/signin').send(mockRequest().body);
     expect(httpResponse.status).toBe(200);
     expect(await RefreshTokensEntity.findOne()).toBeTruthy();
   });
