@@ -1,0 +1,22 @@
+{
+  "post": {
+    "security": [{ "cookieAuth": [] }],
+    "tags": ["Authentication"],
+    "summary": "Refresh Authorization",
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/schemas/authorization"
+            }
+          }
+        }
+      },
+      "401": {
+        "$ref": "#/components/unauthorized"
+      }
+    }
+  }
+}

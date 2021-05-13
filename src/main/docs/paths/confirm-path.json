@@ -1,0 +1,25 @@
+{
+  "post": {
+    "tags": ["Authentication"],
+    "summary": "Confirm User Email",
+    "parameters": [
+      {
+        "in": "path",
+        "name": "emailConfirmToken",
+        "required": "true",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "No Content"
+      },
+      "400": {
+        "$ref": "#/components/bad-request"
+      },
+      "404": {
+        "$ref": "#/components/not-found"
+      }
+    }
+  }
+}

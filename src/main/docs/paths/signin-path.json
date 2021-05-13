@@ -1,7 +1,7 @@
 {
   "post": {
     "tags": ["Authentication"],
-    "summary": "Signup",
+    "summary": "Signin",
     "requestBody": {
       "required": true,
       "content": {
@@ -9,27 +9,16 @@
           "schema": {
             "type": "object",
             "properties": {
-              "name": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 32
-              },
-              "surname": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 64
-              },
               "email": {
                 "type": "string",
                 "format": "email"
               },
               "password": {
                 "type": "string",
-                "format": "password",
-                "minLength": 8
+                "format": "password"
               }
             },
-            "required": ["name", "surname", "email", "password"]
+            "required": ["email", "password"]
           }
         }
       }
@@ -48,8 +37,8 @@
       "400": {
         "$ref": "#/components/bad-request"
       },
-      "409": {
-        "$ref": "#/components/conflict"
+      "401": {
+        "$ref": "#/components/unauthorized"
       }
     }
   }

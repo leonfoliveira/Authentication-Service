@@ -1,0 +1,33 @@
+{
+  "put": {
+    "security": [{ "apiKeyAuth": [] }],
+    "tags": ["Authentication"],
+    "summary": "Update User",
+    "parameters": [
+      {
+        "in": "path",
+        "name": "userId",
+        "required": "true",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/schemas/user"
+            }
+          }
+        }
+      },
+      "404": {
+        "$ref": "#/components/not-found"
+      },
+      "409": {
+        "$ref": "#/components/conflict"
+      }
+    }
+  }
+}

@@ -22,34 +22,34 @@ export default (app: Express): void => {
   app.get('/confirm/:emailConfirmToken', adaptView('confirm-email.ejs'));
   app.get('/password/:passwordResetToken', adaptView('password-update.ejs'));
 
-  router.post('/signup', adaptRoute(makeSignupController()));
-  router.post('/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
-  router.post('/signin', adaptRoute(makeSigninController()));
-  router.post('/password/:passwordResetToken', adaptRoute(makeUpdatePasswordController()));
+  router.post('/auth/signup', adaptRoute(makeSignupController()));
+  router.post('/user/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
+  router.post('/auth/signin', adaptRoute(makeSigninController()));
+  router.post('/auth/password/:passwordResetToken', adaptRoute(makeUpdatePasswordController()));
 
   router.post(
-    '/refresh',
+    '/auth/refresh',
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeRefreshAuthorizationController()),
   );
   router.put(
-    '/user/:id',
+    '/user/:id/update',
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeUpdateUserController()),
   );
   router.post(
-    '/reset',
+    '/auth/reset',
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeResetPasswordController()),
   );
   router.delete(
-    '/user/:id',
+    '/user/:id/delete',
     adaptMiddleware(makeAuthMiddleware()),
     adaptRoute(makeDeleteUserController()),
   );
 
   router.patch(
-    '/admin/:userId',
+    '/user/:userId/grant',
     adaptMiddleware(makeAuthMiddleware(true)),
     adaptRoute(makeGrantAdminController()),
   );

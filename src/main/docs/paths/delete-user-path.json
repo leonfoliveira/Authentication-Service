@@ -1,0 +1,23 @@
+{
+  "delete": {
+    "security": [{ "apiKeyAuth": [] }],
+    "tags": ["Authentication"],
+    "summary": "Delete User",
+    "parameters": [
+      {
+        "in": "path",
+        "name": "userId",
+        "required": "true",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "No Content"
+      },
+      "404": {
+        "$ref": "#/components/not-found"
+      }
+    }
+  }
+}
