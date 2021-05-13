@@ -6,12 +6,12 @@ import app from '@/main/config/app';
 import { MemoryDb } from '@/test/helpers';
 import { mockUserEntity } from '@/test/infra/entities';
 
-describe('PasswordResetRoute', () => {
+describe('UpdatePasswordRoute', () => {
   beforeAll(MemoryDb.connect);
 
   afterAll(MemoryDb.disconnect);
 
-  it('should reset a password', async () => {
+  it('should update a password', async () => {
     const user = await mockUserEntity({
       passwordResetToken: 'any_token',
     });
