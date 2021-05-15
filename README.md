@@ -2,7 +2,7 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT%20-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/leonfoliveira/authentication-service/workflows/CI/badge.svg)](https://github.com/leonfoliveira/authentication-service/actions)
-[![Coverage Status](https://coveralls.io/repos/github/leonfoliveira/authentication-service/badge.svg?branch=main)](https://coveralls.io/github/leonfoliveira/authentication-service?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/leonfoliveira/Authentication-Service/badge.svg?branch=main)](https://coveralls.io/github/leonfoliveira/Authentication-Service?branch=main)
 [![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
 A basic authentication service with AccessToken and RefreshToken.
