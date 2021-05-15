@@ -1,6 +1,6 @@
 {
   "name": "authentication-service",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "repository": "https://github.com/leonfoliveira/Authentication-Service.git",
   "author": "Leonardo Oliveira <leonfoliveira@gmail.com>",
