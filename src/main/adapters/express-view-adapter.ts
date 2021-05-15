@@ -12,7 +12,6 @@ export const adaptView = (view: string): ReturnType => async (
     ...req.params,
     ...req.headers,
     ...req.body,
-    ...req.cookies,
   };
 
   res.render(path.resolve(__dirname, '../../presentation/views/', view), options);

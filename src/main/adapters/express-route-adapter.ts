@@ -19,7 +19,7 @@ export const adaptRoute = (controller: Controller): ReturnType => async (
         ...req.params,
         ...req.headers,
         ...req.body,
-        ...req.cookies,
+        ...(req.cookies.refreshToken ? { refreshtoken: req.cookies.refreshToken } : {}),
       },
     };
 
