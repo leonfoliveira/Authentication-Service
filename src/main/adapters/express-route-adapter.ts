@@ -30,7 +30,7 @@ export const adaptRoute = (controller: Controller): ReturnType => async (
         secure: env.nodeEnv !== 'development',
         httpOnly: true,
         domain: env.domain,
-        maxAge: 1000 * env.jwtRefreshTokenExpiration,
+        maxAge: 1000 * env.refreshTokenExpiration,
       });
 
       delete httpResponse.body.refreshToken;

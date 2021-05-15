@@ -1,3 +1,5 @@
+import { MoreThanOrEqual } from 'typeorm';
+
 import {
   CreateRefreshTokenRepository,
   FindUserByRefreshTokenRepository,
@@ -13,6 +15,8 @@ export class TypeormRefreshTokenRepository
     FindUserByRefreshTokenRepository,
     RevokeAllRefreshTokensByUserRepository,
     RevokeRefreshTokenRepository {
+  constructor(private readonly refreshTokenExpiration: number) {}
+
   async create(token: string, userId: string): Promise<void> {
     const refreshTokens = new RefreshTokensEntity();
     refreshTokens.token = token;
@@ -21,8 +25,14 @@ export class TypeormRefreshTokenRepository
   }
 
   async findUser(token: string): Promise<FindUserByRefreshTokenRepositoryResult> {
-    const entity = await RefreshTokensEntity.findOne({ where: { token }, relations: ['user'] });
-    return this.adaptUser(entity.user);
+    const entity = await RefreshTokensEntity.findOne({
+      where: {
+        token,
+        issuedAt: MoreThanOrEqual(new Date(Date.now() - 1000 * this.refreshTokenExpiration)),
+      },
+      relations: ['user'],
+    });
+    return this.adaptUser(entity?.user);
   }
 
   async revokeAll(userId: string): Promise<void> {
@@ -34,16 +44,18 @@ export class TypeormRefreshTokenRepository
   }
 
   private adaptUser(entity: UserEntity): any {
-    return {
-      id: entity.id,
-      name: entity.name,
-      surname: entity.surname,
-      email: entity.email,
-      password: entity.password,
-      isAdmin: entity.isAdmin,
-      emailConfirmedAt: entity.emailConfirmedAt,
-      emailConfirmToken: entity.emailConfirmToken,
-      passwordResetToken: entity.passwordResetToken,
-    };
+    return entity
+      ? {
+          id: entity.id,
+          name: entity.name,
+          surname: entity.surname,
+          email: entity.email,
+          password: entity.password,
+          isAdmin: entity.isAdmin,
+          emailConfirmedAt: entity.emailConfirmedAt,
+          emailConfirmToken: entity.emailConfirmToken,
+          passwordResetToken: entity.passwordResetToken,
+        }
+      : null;
   }
 }

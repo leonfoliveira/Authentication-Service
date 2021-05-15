@@ -5,7 +5,7 @@ export default {
   port: process.env.PORT || 4000,
   bcryptRounds: 12,
   jwtSecret: process.env.SECRET,
-  jwtRefreshTokenExpiration: +process.env.JWT_REFRESH_TOKEN_EXPIRATION || 60 * 60 * 24 * 7,
+  refreshTokenExpiration: +process.env.REFRESH_TOKEN_EXPIRATION || 60 * 60 * 24 * 7,
   nodemailerOptions: {
     host: process.env.MAIL_HOST || 'smtp.mailtrap.io',
     port: process.env.MAIL_PORT || 2525,

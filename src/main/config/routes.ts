@@ -26,12 +26,8 @@ export default (app: Express): void => {
   router.post('/user/confirm/:emailConfirmToken', adaptRoute(makeConfirmEmailController()));
   router.post('/auth/signin', adaptRoute(makeSigninController()));
   router.post('/auth/password/:passwordResetToken', adaptRoute(makeUpdatePasswordController()));
+  router.post('/auth/refresh', adaptRoute(makeRefreshAuthorizationController()));
 
-  router.post(
-    '/auth/refresh',
-    adaptMiddleware(makeAuthMiddleware()),
-    adaptRoute(makeRefreshAuthorizationController()),
-  );
   router.put(
     '/user/:id/update',
     adaptMiddleware(makeAuthMiddleware()),

@@ -4,8 +4,9 @@ import { TypeormRefreshTokenRepository } from '@/infra/db';
 import { RefreshTokensEntity, UserEntity } from '@/infra/entities';
 import { MemoryDb } from '@/test/helpers';
 
-const makeSut = (): TypeormRefreshTokenRepository => new TypeormRefreshTokenRepository();
-
+const makeSut = (refreshTokenExpiration = 1000): TypeormRefreshTokenRepository =>
+  new TypeormRefreshTokenRepository(refreshTokenExpiration);
+//
 describe('TypeormRefreshTokenRepository', () => {
   beforeAll(MemoryDb.connect);
 
@@ -48,10 +49,14 @@ describe('TypeormRefreshTokenRepository', () => {
     it('should find a UserEntity', async () => {
       const sut = makeSut();
       const { token } = await mockRefreshToken();
+      const findOneSpy = jest.spyOn(RefreshTokensEntity, 'findOne');
 
-      const result = await sut.findUser(token);
+      await sut.findUser(token);
 
-      expect(result).toEqual((await RefreshTokensEntity.findOne({ relations: ['user'] })).user);
+      expect(findOneSpy.mock.calls[0][0]).toHaveProperty('relations', ['user']);
+      expect(findOneSpy.mock.calls[0][0]).toHaveProperty('where');
+      expect((findOneSpy.mock.calls[0][0] as any).where).toHaveProperty('token');
+      expect((findOneSpy.mock.calls[0][0] as any).where).toHaveProperty('issuedAt');
     });
   });
 
