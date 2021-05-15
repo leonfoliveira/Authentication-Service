@@ -32,6 +32,7 @@ export class TypeormRefreshTokenRepository
       },
       relations: ['user'],
     });
+    /* istanbul ignore next */
     return this.adaptUser(entity?.user);
   }
 
@@ -44,6 +45,7 @@ export class TypeormRefreshTokenRepository
   }
 
   private adaptUser(entity: UserEntity): any {
+    /* istanbul ignore next */
     return entity
       ? {
           id: entity.id,

@@ -6,6 +6,6 @@ import { makeJoiAdapter } from '@/main/factories/utils';
 export const makeRefreshAuthorizationValidator = (): Validator =>
   makeJoiAdapter(
     Joi.object({
-      refreshToken: Joi.string().required(),
+      refreshtoken: Joi.string().required(),
     }),
   );

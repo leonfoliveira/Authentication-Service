@@ -6,7 +6,7 @@ import { MemoryDb } from '@/test/helpers';
 
 const makeSut = (refreshTokenExpiration = 1000): TypeormRefreshTokenRepository =>
   new TypeormRefreshTokenRepository(refreshTokenExpiration);
-//
+
 describe('TypeormRefreshTokenRepository', () => {
   beforeAll(MemoryDb.connect);
 

@@ -7,6 +7,5 @@ export const mockRefreshToken = async (
   const refreshToken = new RefreshTokensEntity();
   refreshToken.user = user;
   refreshToken.token = token;
-  refreshToken.issuedAt = new Date();
   return refreshToken.save();
 };

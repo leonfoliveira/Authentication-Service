@@ -8,7 +8,7 @@ export class RefreshAuthorizationController implements Controller<RefreshAuthori
 
   async handle(request: HttpRequest<RefreshAuthorizationRequest>): Promise<HttpResponse> {
     try {
-      const authorization = await this.refreshAuthorization.refresh(request.data.refreshToken);
+      const authorization = await this.refreshAuthorization.refresh(request.data.refreshtoken);
 
       return HttpResponseFactory.makeOk({
         ...authorization,
@@ -24,5 +24,5 @@ export class RefreshAuthorizationController implements Controller<RefreshAuthori
 }
 
 export type RefreshAuthorizationRequest = {
-  refreshToken: string;
+  refreshtoken: string;
 };
